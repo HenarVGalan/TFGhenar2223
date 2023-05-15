@@ -9,7 +9,7 @@ import { HttpClient } from '@angular/common/http';
   templateUrl: './map-nodos.component.html',
   styleUrls: ['./map-nodos.component.scss']
 })
-export class MapNodosComponent  implements OnInit {
+export class MapNodosComponent implements OnInit {
 
   public geojsonMarkerOptions;
   // L.Icon.Default.mergeOptions({
@@ -22,7 +22,7 @@ export class MapNodosComponent  implements OnInit {
       iconSize: 3,
       color: "blue",
     };
-   };
+  };
   groupGeoJson = new L.FeatureGroup();
 
 
@@ -35,9 +35,34 @@ export class MapNodosComponent  implements OnInit {
     this.http.get(url).subscribe((data: any) => {
       data.forEach((row: any) => {
         let data = JSON.parse(row.iniciotramo);
-         console.log(data);
+        console.log(data);
         L.geoJSON(data, {
           pointToLayer: function (feature, latlng) { return L.marker(latlng) }
+        }).addTo(this.groupGeoJson);
+
+      });
+      // console.log(data);
+      //this.showDataOnMap(data);
+    });
+    //getGeoJsonFinTramo
+    const url2 = 'http://localhost:3000/api/punto/getGeoJsonFinTramo';
+    this.http.get(url2).subscribe((data: any) => {
+      data.forEach((row: any) => {
+        let data = JSON.parse(row.fintramo);
+        console.log(data);
+        L.geoJSON(data, {
+          pointToLayer: function (feature, latlng) {
+            var greenIcon = new L.Icon({
+              iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+              shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+              iconSize: [25, 41],
+              iconAnchor: [12, 41],
+              popupAnchor: [1, -34],
+              shadowSize: [41, 41]
+            });          
+           
+            return L.marker(latlng,{icon: greenIcon})
+          }
         }).addTo(this.groupGeoJson);
 
       });
