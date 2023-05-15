@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
+import { MenuItems } from '../core/shared/menu-items';
 
 @Component({
   selector: 'app-public',
@@ -7,12 +8,12 @@ import { MatSidenav } from '@angular/material/sidenav';
   styleUrls: ['./public.component.scss']
 })
 export class PublicComponent implements OnInit {
-   @ViewChild('snav', { static: true }) sidenav: MatSidenav | undefined;
+  @ViewChild('snav', { static: true }) sidenav: MatSidenav | undefined;
   showFiller = false;
   //opened = false;
   opened: boolean = false;
 
-  constructor() { }
+  constructor(public menuItems: MenuItems) { }
 
   ngOnInit(): void {
   }
