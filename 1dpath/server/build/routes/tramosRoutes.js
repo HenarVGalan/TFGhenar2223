@@ -14,6 +14,7 @@ class TramosRoutes {
     config() {
         this.router.get('/', tramosController_1.default.index);
         this.router.get('/list', tramosController_1.default.list);
+        this.router.get('/listGeoJson', tramosController_1.default.listGeoJson);
         this.router.get('/coordenadasCentroTramo', tramosController_1.default.getCoordenadasCentroTramo);
         this.router.get('/coordenadasInicioTramo', tramosController_1.default.getCoordenadasInicioTramo);
         this.router.get('/coordenadasFinTramo', tramosController_1.default.getCoordenadasFinTramo);

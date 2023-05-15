@@ -13,8 +13,16 @@ class TramosController {
     }
 
     public async listGeoJson(req: Request, res: Response): Promise<void> {
+        const tramos = await db.query('SELECT st_asgeojson(geom)  FROM network01_4326');
+        res.json(tramos);
+        //Select st_asgeojson(st_makeline(st_makepoint(puntoinicio_longitud,puntoinicio_latitud), st_makepoint(puntofin_longitud,puntofin_latitud))) from public.network01_4326 limit 10
+        // ST_AsGeoJSON
+    }
+    
+    public async listGeoJsonpuntos (req: Request, res: Response): Promise<void> {
         const tramos = await db.query('SELECT * FROM network01_4326');
         res.json(tramos);
+        //Select st_asgeojson(st_makeline(st_makepoint(puntoinicio_longitud,puntoinicio_latitud), st_makepoint(puntofin_longitud,puntofin_latitud))) from public.network01_4326 limit 10
         // ST_AsGeoJSON
     }
 
@@ -53,7 +61,7 @@ class TramosController {
     public async getCoordenadasInicioTramo(req: Request, res: Response): Promise<any> {
 
         //Primero sacamos un punto inicio de cada tramo, punto formato geometría
-        const inicioGEOM = await db.query('Select ST_StartPoint(ST_LineMerge(geom)) as iniciotramo, ogc_fid as id FROM public.network01_4326');
+        const inicioGEOM = await db.query('Select ,ST_StartPoint(ST_LineMerge(geom)) as iniciotramo, ogc_fid as id FROM public.network01_4326');
         //Segundo para cada punto necesitamos hallar sus coordenadas, formato geometría a 
         inicioGEOM.forEach(async (obj: any) => {
             //console.log(obj);
