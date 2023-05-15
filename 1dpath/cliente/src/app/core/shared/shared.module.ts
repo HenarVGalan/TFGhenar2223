@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -24,6 +26,7 @@ import { MapNodosComponent } from './componentes/map-nodos/map-nodos.component';
 
   ],
   imports: [
+    LeafletModule,
     CommonModule,
     MatToolbarModule,
     MatIconModule,
@@ -34,6 +37,7 @@ import { MapNodosComponent } from './componentes/map-nodos/map-nodos.component';
     MatProgressBarModule
   ],
   exports: [
+    LeafletModule,
     MapComponent,
     MapNodosComponent,
     ToolbarComponent,

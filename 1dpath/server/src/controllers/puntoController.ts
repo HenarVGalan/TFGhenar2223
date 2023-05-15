@@ -62,10 +62,31 @@ class PuntoController {
            //Tercero actualizamos la tabla public.network01_4326 añadiendo, para cada tramo, las coordenadas de tu punto centro
             xY.forEach(async (obj2: any) => {
                 //await db.query('UPDATE public.Punto set latitud=' + obj2.latitud + ' , longitud=' + obj2.longitud + '  WHERE ogc_fid=' + obj.id);
-                await db.query('INSERT INTO public.punto set geom=' + tramo_puntosCOORJSON + ', y=' + obj2.y + ' , x=' + obj2.longitud + ' ogc_fidTramo=' + puntoGEOM.id);
+                //await db.query('INSERT INTO public.punto set geom=' + tramo_puntosCOORJSON + ', y=' + obj2.y + ' , x=' + obj2.longitud + ' ogc_fidTramo=' + puntoGEOM.id);
                 //console.log('UPDATE  public.network01_4326 set latitud='+ obj2.latitud+' , longitud='+ obj2.longitud+'  WHERE ogc_fid='+obj.id );
             });
         });
+    }
+
+        public async getGeoJsonInicioTramo(req: Request, res: Response): Promise<any> {
+
+        //Primero sacamos un punto inicio de cada tramo, punto formato geometría
+        const inicioGeoJson = await db.query('Select st_asgeojson(ST_StartPoint(ST_LineMerge(geom))) as iniciotramo FROM public.network01_4326');
+        res.json(inicioGeoJson);
+        //Segundo para cada punto necesitamos hallar sus coordenadas, formato geometría a 
+        // inicioGEOM.forEach(async (obj: any) => {
+        //     //console.log(obj);
+        //     const xY = await db.query("SELECT ST_X('" + obj.iniciotramo + "') as longitud , ST_Y('" + obj.iniciotramo + "') as latitud");
+        //     // console.log(obj.inicioTramo);
+        //     //Tercero actualizamos la tabla public.network01_4326 añadiendo, para cada tramo, las coordenadas de tu punto inicio
+        //     xY.forEach(async (obj2: any) => {
+
+        //         await db.query('UPDATE public.network01_4326 set puntoinicio_longitud=' + obj2.longitud + ' , puntoinicio_latitud=' + obj2.latitud + '  WHERE ogc_fid=' + obj.id);
+        //     });
+        // });
+        // //Cuarto mostramos como resultado las coordenadas del punto inicio de todos los tramos
+        // const coordenadasInicioTramo = await db.query('SELECT ogc_fid, puntoinicio_longitud,puntoinicio_latitud FROM public.network01_4326 ORDER BY ogc_fid ASC');
+        
     }
 
 
