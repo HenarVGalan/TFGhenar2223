@@ -75,7 +75,7 @@ class TramosController {
     getCoordenadasInicioTramo(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             //Primero sacamos un punto inicio de cada tramo, punto formato geometría
-            const inicioGEOM = yield database_1.default.query('Select ,ST_StartPoint(ST_LineMerge(geom)) as iniciotramo, ogc_fid as id FROM public.network01_4326');
+            const inicioGEOM = yield database_1.default.query('Select ST_StartPoint(ST_LineMerge(geom)) as iniciotramo, ogc_fid as id FROM public.network01_4326');
             //Segundo para cada punto necesitamos hallar sus coordenadas, formato geometría a 
             inicioGEOM.forEach((obj) => __awaiter(this, void 0, void 0, function* () {
                 //console.log(obj);
@@ -127,6 +127,13 @@ class TramosController {
             }));
             //console.log(poligonos);
             //res.json(poligonos);
+        });
+    }
+    getTramos(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { x1, y1, x2, y2 } = req.params;
+            const tramos = yield database_1.default.query('SELECT geom FROM public.network01_4326 WHERE ST_Intersects(ST_SetSRID((ST_MakeEnvelope(' + x1 + ', ' + y1 + ', ' + x2 + ', ' + y2 + ', 4326)), 4326),geom)');
+            res.json(tramos);
         });
     }
 }

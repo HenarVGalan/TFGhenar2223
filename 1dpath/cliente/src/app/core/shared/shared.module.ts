@@ -18,6 +18,8 @@ import { ToolbarComponent } from './componentes/toolbar/toolbar.component';
 import { MapNodosComponent } from './componentes/map-nodos/map-nodos.component';
 
 import { MenuItems } from './menu-items';
+import { Punto } from '../models/Punto';
+import { Tramo } from '../models/Tramo';
 
 
 

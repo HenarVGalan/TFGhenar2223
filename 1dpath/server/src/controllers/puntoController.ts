@@ -78,9 +78,8 @@ class PuntoController {
     public async getGeoJsonFinTramo(req: Request, res: Response): Promise<any> {
 
         //Primero sacamos un punto inicio de cada tramo, punto formato geometría
-        const inicioGeoJson = await db.query('Select st_asgeojson(ST_EndPoint(ST_LineMerge(geom))) as fintramo FROM public.network01_4326');
-        res.json(inicioGeoJson);
-
+        const finGeoJson = await db.query('Select st_asgeojson(ST_EndPoint(ST_LineMerge(geom))) as fintramo FROM public.network01_4326');
+        res.json(finGeoJson);
     }
 
 

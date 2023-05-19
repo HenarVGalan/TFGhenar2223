@@ -18,8 +18,8 @@ class TramosController {
         //Select st_asgeojson(st_makeline(st_makepoint(puntoinicio_longitud,puntoinicio_latitud), st_makepoint(puntofin_longitud,puntofin_latitud))) from public.network01_4326 limit 10
         // ST_AsGeoJSON
     }
-    
-    public async listGeoJsonpuntos (req: Request, res: Response): Promise<void> {
+
+    public async listGeoJsonpuntos(req: Request, res: Response): Promise<void> {
         const tramos = await db.query('SELECT * FROM network01_4326');
         res.json(tramos);
         //Select st_asgeojson(st_makeline(st_makepoint(puntoinicio_longitud,puntoinicio_latitud), st_makepoint(puntofin_longitud,puntofin_latitud))) from public.network01_4326 limit 10
@@ -61,8 +61,9 @@ class TramosController {
     public async getCoordenadasInicioTramo(req: Request, res: Response): Promise<any> {
 
         //Primero sacamos un punto inicio de cada tramo, punto formato geometría
-        const inicioGEOM = await db.query('Select ,ST_StartPoint(ST_LineMerge(geom)) as iniciotramo, ogc_fid as id FROM public.network01_4326');
+        const inicioGEOM = await db.query('Select ST_StartPoint(ST_LineMerge(geom)) as iniciotramo, ogc_fid as id FROM public.network01_4326');
         //Segundo para cada punto necesitamos hallar sus coordenadas, formato geometría a 
+
         inicioGEOM.forEach(async (obj: any) => {
             //console.log(obj);
             const xY = await db.query("SELECT ST_X('" + obj.iniciotramo + "') as longitud , ST_Y('" + obj.iniciotramo + "') as latitud");
@@ -115,10 +116,13 @@ class TramosController {
         //res.json(poligonos);
     }
 
+    public async getTramos(req: Request, res: Response): Promise<any> {
+        const { x1, y1, x2, y2 } = req.params;    
+        const tramos = await db.query('SELECT geom FROM public.network01_4326 WHERE ST_Intersects(ST_SetSRID((ST_MakeEnvelope(' + x1 + ', ' + y1 + ', ' + x2 + ', ' + y2 + ', 4326)), 4326),geom)');
+        res.json(tramos);
+    }
 
 }
-
-
 
 
 const tramosController = new TramosController();

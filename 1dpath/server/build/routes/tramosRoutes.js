@@ -19,6 +19,8 @@ class TramosRoutes {
         this.router.get('/coordenadasInicioTramo', tramosController_1.default.getCoordenadasInicioTramo);
         this.router.get('/coordenadasFinTramo', tramosController_1.default.getCoordenadasFinTramo);
         this.router.get('/interseccion', tramosController_1.default.getinteseccionTramosPoligono);
+        //getTramos
+        this.router.get('/:x1/:y1/:x2/:y2', tramosController_1.default.getTramos);
         this.router.get('/:id', tramosController_1.default.getOne);
         // this.router.post('/', tramosController.create);
         // this.router.put('/:id', tramosController.update);

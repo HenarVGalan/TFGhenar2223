@@ -84,8 +84,8 @@ class PuntoController {
     getGeoJsonFinTramo(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             //Primero sacamos un punto inicio de cada tramo, punto formato geometría
-            const inicioGeoJson = yield database_1.default.query('Select st_asgeojson(ST_EndPoint(ST_LineMerge(geom))) as fintramo FROM public.network01_4326');
-            res.json(inicioGeoJson);
+            const finGeoJson = yield database_1.default.query('Select st_asgeojson(ST_EndPoint(ST_LineMerge(geom))) as fintramo FROM public.network01_4326');
+            res.json(finGeoJson);
         });
     }
 }
