@@ -117,9 +117,21 @@ class TramosController {
     }
 
     public async getTramos(req: Request, res: Response): Promise<any> {
-        const { x1, y1, x2, y2 } = req.params;    
+        const { x1, y1, x2, y2 } = req.params;
         const tramos = await db.query('SELECT geom FROM public.network01_4326 WHERE ST_Intersects(ST_SetSRID((ST_MakeEnvelope(' + x1 + ', ' + y1 + ', ' + x2 + ', ' + y2 + ', 4326)), 4326),geom)');
         res.json(tramos);
+    }
+
+    public async getTramosObras(req: Request, res: Response): Promise<any> {
+
+        const tramosobras = await db.query("Select geom From public.network01_4326 Where tipo = 'OBRAS'");
+        res.json(tramosobras);
+
+    }
+    public async getTramosFerrocarril(req: Request, res: Response): Promise<any> {
+        const tramosferrocarril = await db.query("Select geom From public.network01_4326 Where tipo = 'FERROCARRIL'");
+        res.json(tramosferrocarril);
+
     }
 
 }

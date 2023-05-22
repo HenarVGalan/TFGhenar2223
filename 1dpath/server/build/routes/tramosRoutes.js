@@ -21,6 +21,8 @@ class TramosRoutes {
         this.router.get('/interseccion', tramosController_1.default.getinteseccionTramosPoligono);
         //getTramos
         this.router.get('/:x1/:y1/:x2/:y2', tramosController_1.default.getTramos);
+        this.router.get('/tramosObras', tramosController_1.default.getTramosObras);
+        this.router.get('/tramosFerrocarril', tramosController_1.default.getTramosFerrocarril);
         this.router.get('/:id', tramosController_1.default.getOne);
         // this.router.post('/', tramosController.create);
         // this.router.put('/:id', tramosController.update);
