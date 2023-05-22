@@ -41,7 +41,7 @@ export class MapComponent implements OnInit {
   //   });
   // }
   showDataOnMap(data: any): void {
-    const map = new Map('map').setView([38.9951, -1.8559], 13);
+    const map = new Map('map').setView([38.9951, -1.8559], 6.5);
     tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'

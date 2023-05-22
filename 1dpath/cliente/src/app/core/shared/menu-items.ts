@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
 
 export interface Menu {
-  state: string;
+  path: string;
   name: string;
   type: string;
   icon: string;
 }
 
 const MENUITEMS = [
-  { state: 'basico', name: 'Básico', type: 'link', icon: 'home' },
-  { state: 'intermedio', name: 'Intermedio', type: 'link', icon: 'minimize' },
-  { state: 'misrutas', name: 'Mis rutas', type: 'link', icon: 'map' },
-  { state: 'crearruta', name: 'CrearRuta', type: 'link', icon: 'route' },
-  { state: 'MapaLineas', name: 'Mapa Vías', type: 'link', icon: 'alt_route' },
-  { state: 'MapaNodos', name: 'Mapa Nodos', type: 'link', icon: 'location_ont' },
+  { path: 'mapaNodos', name: 'Básico', type: 'link', icon: 'home' },
+  { path: 'intermedio', name: 'Intermedio', type: 'link', icon: 'minimize' },
+  { path: 'misrutas', name: 'Mis rutas', type: 'link', icon: 'map' },
+  { path: 'crearRuta', name: 'Crear Ruta', type: 'link', icon: 'route' },
+  { path: 'MapaLineas', name: 'Mapa Vías', type: 'link', icon: 'alt_route' },
+  { path: 'mapaNodos', name: 'Mapa Nodos', type: 'link', icon: 'location_ont' },
   // { state: 'MapaLineas', name: 'Ejemplo', type: 'link', icon: 'show_chart' },
 ];
 

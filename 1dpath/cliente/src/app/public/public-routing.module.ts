@@ -13,6 +13,10 @@ const routes: Routes = [
         redirectTo: 'crearRuta',
         pathMatch: 'full'
       },
+       {
+        path: 'basico',
+        component: MapNodosComponent
+      },
       {
         path: 'crearRuta',
         component: CrearRutaComponent

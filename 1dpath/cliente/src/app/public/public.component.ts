@@ -10,7 +10,7 @@ import { MenuItems } from '../core/shared/menu-items';
 export class PublicComponent implements OnInit {
   @ViewChild('snav', { static: true }) sidenav: MatSidenav | undefined;
   showFiller = false;
-  //opened = false;
+  
   opened: boolean = false;
 
   constructor(public menuItems: MenuItems) { }
@@ -18,16 +18,8 @@ export class PublicComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onMenuClicked() {
-    //this.opened = true;
-    // this.opened = !this.opened;
-    // console.log(this.opened);
+  onMenuClicked() {  
     this.sidenav?.toggle();
   }
-
-  // ngAfterViewInit() {
-  //   this.toolbar.openSidenav.subscribe(() => {
-  //     this.sidenav.open();
-  //   });
-  // }
+ 
 }

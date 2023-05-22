@@ -6,27 +6,19 @@
 
 <mat-sidenav-container autosize>
     <mat-sidenav #snav mode="side" opened="true">
-        <p>Auto-resizing sidenav</p>
-        <p *ngIf="showFiller">Lorem, ipsum dolor sit amet consectetur.</p>
-        <button (click)="showFiller = !showFiller" mat-raised-button>
-            Toggle extra text
-        </button>
-       
-        <mat-nav-list >
-            <mat-list-item  *ngFor="let menuitem of menuItems.getMenuitem()" routerLinkActive="selected" >
-                <!-- <a [routerLink]="['/', menuitem.state]" *ngIf="menuitem.type === 'link'"> -->
-                    
-                    <mat-icon matListItemIcon>{{ menuitem.icon }}</mat-icon>
-                    <span >{{ menuitem.name }}</span>
-                    
-                    <!-- <span fxFlex></span>
-                    <span class="label label-{{ badge.type }}" *ngFor="let badge of menuitem.badge">{{ badge.value }}</span> -->
-                <!-- </a> -->
+
+        <mat-nav-list role="navigation">
+            <mat-list-item *ngFor="let menuitem of menuItems.getMenuitem()" [routerLink]="['/', menuitem.path]"
+                routerLinkActive="active">
+                <mat-icon matListItemIcon>{{ menuitem.icon }}</mat-icon>
+                <div matListItemTitle>{{ menuitem.name }}</div>
             </mat-list-item>
         </mat-nav-list>
-      
+
     </mat-sidenav>
-    <mat-sidenav-content>
+
+    <mat-sidenav-content style="height: 100%;">
         <router-outlet></router-outlet>
     </mat-sidenav-content>
+
 </mat-sidenav-container>

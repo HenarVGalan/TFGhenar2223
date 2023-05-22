@@ -1,0 +1,26 @@
+mat-sidenav{
+    padding-right: 2px;
+}
+
+mat-sidenav-container{
+    min-height: 100vh; 
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+mat-list-item {  
+     
+    &.active {
+        background-color: #972727b6;              
+        box-shadow: 2px 1px 1px 0.2px rgba(0, 0, 0, 0.2);     
+
+        .mat-icon {
+            color: #ffffff;
+        }
+
+    }
+}
+
+
