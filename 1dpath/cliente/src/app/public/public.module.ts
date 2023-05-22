@@ -9,6 +9,7 @@ import { PublicRoutingModule } from './public-routing.module';
 import { PublicComponent } from './public.component';
 import { CrearRutaComponent } from './auth/login/containers/crear-ruta/crear-ruta.component';
 import { BasicoComponent } from './auth/login/containers/basico/basico.component';
+import { MapaNetwork01TipoComponent } from './auth/login/components/mapa-network01-tipo/mapa-network01-tipo.component';
 
 
 //import { MenuItems } from '../core/shared/menu-items';
@@ -17,7 +18,8 @@ import { BasicoComponent } from './auth/login/containers/basico/basico.component
   declarations: [
     PublicComponent,
     CrearRutaComponent,
-    BasicoComponent,   
+    BasicoComponent,
+    MapaNetwork01TipoComponent,   
 
   ],
   imports: [
