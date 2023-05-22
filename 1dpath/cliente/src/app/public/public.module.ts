@@ -10,21 +10,22 @@ import { PublicComponent } from './public.component';
 import { CrearRutaComponent } from './auth/login/containers/crear-ruta/crear-ruta.component';
 import { BasicoComponent } from './auth/login/containers/basico/basico.component';
 
+
 //import { MenuItems } from '../core/shared/menu-items';
 
 @NgModule({
   declarations: [
     PublicComponent,
     CrearRutaComponent,
-    BasicoComponent,
+    BasicoComponent,   
 
   ],
   imports: [
     CommonModule,
-    SharedModule,
-    MaterialModule,
+    SharedModule,   
     ReactiveFormsModule,    
-    PublicRoutingModule
+    PublicRoutingModule,
+    MaterialModule,
   ]
 
 })

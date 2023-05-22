@@ -5,6 +5,7 @@ import { CrearRutaComponent } from './auth/login/containers/crear-ruta/crear-rut
 import { MapNodosComponent } from '../core/shared/componentes/map-nodos/map-nodos.component';
 import { BasicoComponent } from './auth/login/containers/basico/basico.component';
 
+
 const routes: Routes = [
   {
     path: '', component: PublicComponent, children: [
