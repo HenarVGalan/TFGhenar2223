@@ -8,6 +8,7 @@ import { PublicRoutingModule } from './public-routing.module';
 
 import { PublicComponent } from './public.component';
 import { CrearRutaComponent } from './auth/login/containers/crear-ruta/crear-ruta.component';
+import { BasicoComponent } from './auth/login/containers/basico/basico.component';
 
 //import { MenuItems } from '../core/shared/menu-items';
 
@@ -15,6 +16,7 @@ import { CrearRutaComponent } from './auth/login/containers/crear-ruta/crear-rut
   declarations: [
     PublicComponent,
     CrearRutaComponent,
+    BasicoComponent,
 
   ],
   imports: [

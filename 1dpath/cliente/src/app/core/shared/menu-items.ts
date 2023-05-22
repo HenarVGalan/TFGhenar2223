@@ -8,7 +8,7 @@ export interface Menu {
 }
 
 const MENUITEMS = [
-  { path: 'mapaNodos', name: 'Básico', type: 'link', icon: 'home' },
+  { path: 'basico', name: 'Básico', type: 'link', icon: 'home' },
   { path: 'intermedio', name: 'Intermedio', type: 'link', icon: 'minimize' },
   { path: 'misrutas', name: 'Mis rutas', type: 'link', icon: 'map' },
   { path: 'crearRuta', name: 'Crear Ruta', type: 'link', icon: 'route' },

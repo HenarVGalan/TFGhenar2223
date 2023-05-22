@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { PublicComponent } from './public.component';
 import { CrearRutaComponent } from './auth/login/containers/crear-ruta/crear-ruta.component';
 import { MapNodosComponent } from '../core/shared/componentes/map-nodos/map-nodos.component';
-
+import { BasicoComponent } from './auth/login/containers/basico/basico.component';
 
 const routes: Routes = [
   {
@@ -15,7 +15,7 @@ const routes: Routes = [
       },
        {
         path: 'basico',
-        component: MapNodosComponent
+        component: BasicoComponent
       },
       {
         path: 'crearRuta',

@@ -12,6 +12,7 @@ import { MapNodosComponent } from './componentes/map-nodos/map-nodos.component';
 import { MenuItems } from './menu-items';
 import { Punto } from '../models/Punto';
 import { Tramo } from '../models/Tramo';
+import { SettingsComponent } from './componentes/settings/settings.component';
 
 
 
@@ -20,6 +21,7 @@ import { Tramo } from '../models/Tramo';
     MapComponent,
     ToolbarComponent,
     MapNodosComponent,
+    SettingsComponent,
 
   ],
   imports: [

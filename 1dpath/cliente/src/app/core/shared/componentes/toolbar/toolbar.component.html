@@ -4,10 +4,15 @@
   </button>
   <span>1Dpath</span>
   <span class="example-spacer"></span>
-  <button mat-icon-button class="example-icon favorite-icon">
+  <button mat-icon-button  (click)="openSettings()">
     <mat-icon>settings</mat-icon>
   </button>
-  <button mat-icon-button class="example-icon">
+  <button mat-icon-button >
     <mat-icon>account_circle</mat-icon>
   </button>
 </mat-toolbar>
+
+
+<!-- <mat-menu #settings="matMenu"  MenuCloseReason ='void' >
+  <app-settings></app-settings>
+</mat-menu> -->

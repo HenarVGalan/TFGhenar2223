@@ -1,0 +1,17 @@
+<h1 mat-dialog-title>Ajustes</h1>
+<div mat-dialog-content>
+    <mat-list>
+        <mat-list-item>Cambiar tema
+            <mat-icon matListItemIcon>light_mode</mat-icon>
+            <mat-slide-toggle  style="padding-left: 10px;"></mat-slide-toggle>
+        </mat-list-item>
+    </mat-list>
+
+    <mat-button-toggle-group name="theme" aria-label="Theme Selection" > <!-- [value]="theme" -->
+        <mat-button-toggle value="light" >Light</mat-button-toggle> <!--  (click)="selectLightTheme()" -->
+       <mat-button-toggle value="dark" >Dark</mat-button-toggle>  <!-- (click)="selectDarkTheme()" -->
+    </mat-button-toggle-group>
+</div>
+<!-- <div mat-dialog-actions>
+  <button mat-button mat-dialog-close>Close</button>
+</div> -->
