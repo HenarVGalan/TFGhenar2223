@@ -6,6 +6,7 @@ L.Icon.Default.imagePath = 'assets/';
 
 import { PuntoService } from 'src/app/core/services/punto/punto.service';
 import { FormBuilder, FormControl, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 
 const greenIcon = new L.Icon({
   iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
@@ -19,9 +20,16 @@ const greenIcon = new L.Icon({
 @Component({
   selector: 'app-map-nodos',
   templateUrl: './map-nodos.component.html',
-  styleUrls: ['./map-nodos.component.scss']
+  styleUrls: ['./map-nodos.component.scss'],
+  providers: [
+    {
+      provide: STEPPER_GLOBAL_OPTIONS,
+      useValue: { showError: true },
+    },
+  ],
 })
 export class MapNodosComponent implements OnInit {
+
   // Variables referente al mapa leaflet
   private mapa: any;
   nodoinicio = {
@@ -36,18 +44,17 @@ export class MapNodosComponent implements OnInit {
   puntoFingroupGeoJson = new L.LayerGroup();
 
   //Variables referentes a control de inputs de las coordenadas
-  puntoInicioFormGroup = this._formBuilder.group({
+  puntoInicioFormGroup = this.formBuilder.group({
+    //   latitudControl: [{value:'',disabled:true}, [Validators.required]],
     latitudControl: ['', Validators.required],
     longitudControl: ['', Validators.required],
   });
-  puntoFinalFormGroup = this._formBuilder.group({
+  puntoFinalFormGroup = this.formBuilder.group({
     latitudControl: ['', Validators.required],
     longitudControl: ['', Validators.required],
   });
 
-
-
-  constructor(private puntoService: PuntoService, private _formBuilder: FormBuilder) {
+  constructor(private puntoService: PuntoService, private formBuilder: FormBuilder) {
   }
 
 
@@ -118,4 +125,5 @@ export class MapNodosComponent implements OnInit {
     this.puntoFingroupGeoJson.addTo(this.mapa);
 
   }
+
 }

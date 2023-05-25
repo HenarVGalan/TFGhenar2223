@@ -1,24 +1,28 @@
 .example-card {
-  padding: 4px;
+  padding: 8px;
   margin: 10px;
-  height: fit-content;
- 
-  
 }
 
 #map-nodos {
-  height: 300px; 
+  min-height: 300px;
+  width: 100%;
+  height: 100%;
 }
 
-.outline{
+.resizable-card {
+  resize: both;
+  overflow: auto;
+}
+
+.outline {
   border: 0.2px solid #4b4a4a;
   height: fit-content;
   width: fit-content;
   box-shadow: none !important;
- 
+
 }
 
-.form-field{
+.form-field {
   padding: 4px;
-  
+
 }
