@@ -138,13 +138,13 @@ class TramosController {
     }
     getTramosObras(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const tramosobras = yield database_1.default.query("Select geom From public.network01_4326 Where tipo = 'OBRAS'");
+            const tramosobras = yield database_1.default.query("Select st_asgeojson(geom) From public.network01_4326 Where tipo = 'OBRAS'");
             res.json(tramosobras);
         });
     }
     getTramosFerrocarril(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const tramosferrocarril = yield database_1.default.query("Select geom From public.network01_4326 Where tipo = 'FERROCARRIL'");
+            const tramosferrocarril = yield database_1.default.query("Select st_asgeojson(geom) From public.network01_4326 Where tipo = 'FERROCARRIL'");
             res.json(tramosferrocarril);
         });
     }

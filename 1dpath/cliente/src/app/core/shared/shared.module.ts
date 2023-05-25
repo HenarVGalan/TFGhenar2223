@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { MaterialModule } from './material/material.module';
 
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
-
+import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { MapComponent } from './componentes/map/map.component';
 import { ToolbarComponent } from './componentes/toolbar/toolbar.component';
 import { MapNodosComponent } from './componentes/map-nodos/map-nodos.component';
@@ -27,13 +27,17 @@ import { SettingsComponent } from './componentes/settings/settings.component';
   imports: [
     LeafletModule,
     CommonModule,
+    ReactiveFormsModule,
+    FormsModule,
     MaterialModule
   ],
   exports: [
     LeafletModule,
     MapComponent,
     MapNodosComponent,
-    ToolbarComponent,    
+    ToolbarComponent, 
+    ReactiveFormsModule,  
+    FormsModule, 
     RouterModule
   ],
   providers: [

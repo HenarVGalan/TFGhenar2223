@@ -16,8 +16,8 @@ class PuntoRoutes {
         this.router.get('/list', puntoController.list);
         this.router.get('/getCoordenadas', puntoController.getCoordenadas);
         //getGeoJsonInicioTramo
-        this.router.get('/getGeoJsonInicioTramo', puntoController.getGeoJsonInicioTramo);
-        this.router.get('/getGeoJsonFinTramo', puntoController.getGeoJsonFinTramo);
+        this.router.get('/getInicioTramo', puntoController.getInicioTramo);
+        this.router.get('/getFinTramo', puntoController.getFinTramo);
         //  this.router.get('/:id', puntoController.getOne);
         // this.router.post('/', puntoController.create);
         // this.router.put('/:id', puntoController.update);

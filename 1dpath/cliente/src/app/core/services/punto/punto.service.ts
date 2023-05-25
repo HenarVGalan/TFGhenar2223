@@ -19,8 +19,12 @@ export class PuntoService {
       // this.router.get('/getGeoJsonInicioTramo', puntoController.getGeoJsonInicioTramo);
       // this.router.get('/getGeoJsonFinTramo', puntoController.getGeoJsonFinTramo);
 
-      getpIniciopFin(){
-        return this.http.get(`${this.API_URI}/getGeoJsonInicioTramo`);
+      getpInicio(){
+        return this.http.get(`${this.API_URI}/getInicioTramo`);
+     
+      }
+      getpFin(){
+        return this.http.get(`${this.API_URI}/getFinTramo`);
      
       }
 }

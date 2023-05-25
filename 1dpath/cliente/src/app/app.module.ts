@@ -7,6 +7,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { SharedModule } from './core/shared/shared.module';
 import { MaterialModule } from './core/shared/material/material.module';
+import { HighchartsChartModule } from 'highcharts-angular';
+
+
+//import { HighchartsChartModule }  from './1dpath/cliente/node_modules/highcharts-angular';
 //import { PublicComponent } from './public/public.component';
 
 @NgModule({
@@ -19,7 +23,9 @@ import { MaterialModule } from './core/shared/material/material.module';
     AppRoutingModule,
     BrowserAnimationsModule,  
     FlexLayoutModule,
-    MaterialModule,      
+    HighchartsChartModule,
+    MaterialModule,  
+   
     SharedModule
   ],
   providers: [],

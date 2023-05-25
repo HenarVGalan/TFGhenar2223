@@ -74,17 +74,17 @@ class PuntoController {
             }));
         });
     }
-    getGeoJsonInicioTramo(req, res) {
+    getInicioTramo(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             //Primero sacamos un punto inicio de cada tramo, punto formato geometría
-            const inicioGeoJson = yield database_1.default.query('Select st_asgeojson(ST_StartPoint(ST_LineMerge(geom))) as iniciotramo FROM public.network01_4326');
+            const inicioGeoJson = yield database_1.default.query('Select puntoInicio_latitud as lat, puntoInicio_longitud as long FROM public.network01_4326');
             res.json(inicioGeoJson);
         });
     }
-    getGeoJsonFinTramo(req, res) {
+    getFinTramo(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             //Primero sacamos un punto inicio de cada tramo, punto formato geometría
-            const finGeoJson = yield database_1.default.query('Select st_asgeojson(ST_EndPoint(ST_LineMerge(geom))) as fintramo FROM public.network01_4326');
+            const finGeoJson = yield database_1.default.query('Select puntoFin_latitud as lat, puntoFin_longitud as long FROM public.network01_4326');
             res.json(finGeoJson);
         });
     }

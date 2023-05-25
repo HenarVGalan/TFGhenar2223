@@ -124,12 +124,12 @@ class TramosController {
 
     public async getTramosObras(req: Request, res: Response): Promise<any> {
 
-        const tramosobras = await db.query("Select geom From public.network01_4326 Where tipo = 'OBRAS'");
+        const tramosobras = await db.query("Select st_asgeojson(geom) From public.network01_4326 Where tipo = 'OBRAS'");
         res.json(tramosobras);
 
     }
     public async getTramosFerrocarril(req: Request, res: Response): Promise<any> {
-        const tramosferrocarril = await db.query("Select geom From public.network01_4326 Where tipo = 'FERROCARRIL'");
+        const tramosferrocarril = await db.query("Select st_asgeojson(geom) From public.network01_4326 Where tipo = 'FERROCARRIL'");
         res.json(tramosferrocarril);
 
     }

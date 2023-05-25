@@ -13,7 +13,7 @@ import { TramoService } from 'src/app/core/services/tramo/tramo.service';
 export class MapComponent implements OnInit {
 
   constructor(private http: HttpClient, private tramoService: TramoService) { }
-  groupGeoJson = new L.FeatureGroup();
+  groupGeoJson = new L.FeatureGroup();//cambiar a layer
 
   ngOnInit(): void {
     this.getDataFromApi();

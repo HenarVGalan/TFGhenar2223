@@ -68,17 +68,17 @@ class PuntoController {
         });
     }
 
-    public async getGeoJsonInicioTramo(req: Request, res: Response): Promise<any> {
+    public async getInicioTramo(req: Request, res: Response): Promise<any> {
 
         //Primero sacamos un punto inicio de cada tramo, punto formato geometría
-        const inicioGeoJson = await db.query('Select st_asgeojson(ST_StartPoint(ST_LineMerge(geom))) as iniciotramo FROM public.network01_4326');
+        const inicioGeoJson = await db.query('Select puntoInicio_latitud as lat, puntoInicio_longitud as long FROM public.network01_4326');
         res.json(inicioGeoJson);
 
     }
-    public async getGeoJsonFinTramo(req: Request, res: Response): Promise<any> {
+    public async getFinTramo(req: Request, res: Response): Promise<any> {
 
         //Primero sacamos un punto inicio de cada tramo, punto formato geometría
-        const finGeoJson = await db.query('Select st_asgeojson(ST_EndPoint(ST_LineMerge(geom))) as fintramo FROM public.network01_4326');
+        const finGeoJson = await db.query('Select puntoFin_latitud as lat, puntoFin_longitud as long FROM public.network01_4326');
         res.json(finGeoJson);
     }
 

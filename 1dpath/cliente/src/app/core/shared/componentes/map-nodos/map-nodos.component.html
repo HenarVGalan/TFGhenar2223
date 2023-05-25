@@ -1,18 +1,75 @@
 <mat-card class="example-card">
-    <mat-card-header>
-        <mat-card-subtitle>Nodos Inicio y Fin de cada tramo</mat-card-subtitle>
-        <mat-card-title>Mapa</mat-card-title>
-    </mat-card-header>
+    <mat-stepper #stepper>
+        <mat-step [stepControl]="puntoInicioFormGroup" label="inicio">
+            <form [formGroup]="puntoInicioFormGroup">
+                <ng-template matStepLabel>Selecciona Inicio de la ruta</ng-template>
+
+                <mat-card class=" outline">
+                    <mat-card-header>
+                        <mat-card-subtitle>Nodo Inicio</mat-card-subtitle>
+                    </mat-card-header>
+                    <mat-card-content>                   
+                        <mat-form-field class="form-field">
+                            <mat-label>Latitud</mat-label>
+                            <input matInput formControlName="latitudControl" required placeholder="x"
+                                value={{nodoinicio.lat}}>
+                            <mat-error>Latitud es un campo <strong>requerido</strong></mat-error>
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>Longitud</mat-label>
+                            <input matInput formControlName="longitudControl" required placeholder="y"
+                                value={{nodoinicio.long}}>
+                            <mat-error>Longitud es un campo <strong>requerido</strong></mat-error>
+                        </mat-form-field>
+                        <mat-divider></mat-divider>
+                    </mat-card-content>
+                    <mat-card-actions align="end">
+                        <button mat-button matStepperNext>Next</button>
+                    </mat-card-actions>
+                </mat-card>
+
+            </form>
+        </mat-step>
+        <mat-step [stepControl]="puntoFinalFormGroup" label="Selecciona Fin de la ruta">
+            <form [formGroup]="puntoFinalFormGroup">
+                <ng-template matStepLabel>Selecciona Fin de la ruta</ng-template>
+                <mat-card class=" outline">
+                    <mat-card-header>
+                        <mat-card-subtitle>Nodo Fin</mat-card-subtitle>
+                    </mat-card-header>
+                    <mat-card-content>                  
+
+                        <mat-form-field class="form-field">
+                            <mat-label>Latitud</mat-label>
+                            <input matInput formControlName="latitudControl" required placeholder="x"
+                            value={{nodofin.lat}}>
+                        <mat-error>Latitud es un campo <strong>requerido</strong></mat-error>
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>Longitud</mat-label>
+                            <input matInput formControlName="longitudControl" required placeholder="y"
+                                value={{nodofin.long}}>
+                            <mat-error>Longitud es un campo <strong>requerido</strong></mat-error>
+                        </mat-form-field>
+                        <mat-divider></mat-divider>
+                    </mat-card-content>
+                    <mat-card-actions align="end">
+                        <button mat-button matStepperPrevious>Back</button>
+                        <button mat-button matStepperNext>Next</button>
+                    </mat-card-actions>
+                </mat-card>
+            </form>
+        </mat-step>
+        <mat-step label="Ver tramos implicados">
+            <div>
+                <button mat-button matStepperPrevious>Back</button>
+                <button mat-button (click)="stepper.reset()">Reset</button>
+            </div>
+        </mat-step>
+    </mat-stepper>
+</mat-card>
+<mat-card class="example-card">
     <mat-card-content>
         <div id="map-nodos"></div>
-        <mat-divider></mat-divider>
     </mat-card-content>
-    <mat-card-actions>
-        <p>Footer - Se puede valorar poner aqui el panel para seleccionar</p>
-        <!-- <button mat-button>Seleccionar</button>
-        <button mat-button>SHARE</button> -->
-    </mat-card-actions>
-    <!-- <mat-card-footer>
-        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-    </mat-card-footer> -->
 </mat-card>
