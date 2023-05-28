@@ -54,8 +54,7 @@ export class MapNodosComponent implements OnInit {
     longitudControl: ['', Validators.required],
   });
 
-  constructor(private puntoService: PuntoService, private formBuilder: FormBuilder) {
-  }
+  constructor(private puntoService: PuntoService, private formBuilder: FormBuilder) { }
 
 
   ngOnInit(): void {
@@ -74,7 +73,7 @@ export class MapNodosComponent implements OnInit {
           let long = JSON.parse(row.long);
           L.marker([lat, long], { icon: greenIcon })
             .bindPopup('Latitud: ' + lat + '<br> Longitud ' + long)
-            .on("click", e => this.markerinicioOnClick(e.latlng))
+            .on("click", e => this.markerOnClick(e))
             .addTo(this.puntoIniciogroupGeoJson);
 
 
@@ -91,21 +90,22 @@ export class MapNodosComponent implements OnInit {
           let long = JSON.parse(row.long);
           L.marker([lat, long])
             .bindPopup('Latitud: ' + lat + '<br> Longitud ' + long)
-            .on("click", e => this.markerfinOnClick(e.latlng))
+            .on("click", e => this.markerOnClick(e))
             .addTo(this.puntoFingroupGeoJson);
 
         });
       });
   }
   //to do refactorizar
-  markerinicioOnClick(latlng: any) {
+  markerOnClick(latlng: any) {
+    console.log(latlng);
+    //controlar quien 
     this.nodoinicio.lat = latlng.lat;
     this.nodoinicio.long = latlng.lng;
-  }
-  markerfinOnClick(latlng: any) {
     this.nodofin.lat = latlng.lat;
     this.nodofin.long = latlng.lng;
   }
+
 
   private initMap(): void {
 

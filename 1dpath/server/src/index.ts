@@ -7,7 +7,8 @@ import tramosRoutes from './routes/tramosRoutes';
 import poligonoRoutes from './routes/poligonoRoutes';
 import puntoRoutes from './routes/puntoRoutes';
 
-
+//API KEY Servicio AEMET OpenData
+// eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJoZW5hci52ZWxhc2NvMUBhbHUudWNsbS5lcyIsImp0aSI6ImNhZDJmZDk2LTA4MDctNGMyMy05ZmIzLTJkMjFkNGUxNjBkNCIsImlzcyI6IkFFTUVUIiwiaWF0IjoxNjg1MDk1MTk2LCJ1c2VySWQiOiJjYWQyZmQ5Ni0wODA3LTRjMjMtOWZiMy0yZDIxZDRlMTYwZDQiLCJyb2xlIjoiIn0.eOvtg2o-bfmL_JesnFGbE_bgZsWT5naIKMhTPg77o5E
 class Server {
 
     public app: Application;

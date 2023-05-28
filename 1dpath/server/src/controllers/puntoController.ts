@@ -43,29 +43,63 @@ class PuntoController {
     //ST_Points
 
     public async getCoordenadas(req: Request, res: Response): Promise<any> {
-        const tramo_puntosCOORJSON = await db.query('Select ST_Points(geom) as punto, ogc_fid as id FROM public.network01_4326');
+        const tramo_puntosJSON = await db.query('Select ST_AsGeoJSON(ST_Points(geom))as multipoints, ogc_fid as idtramo  FROM public.network01_4326 ORDER BY idTramo');
 
         // ST_AsGeoJSON
         //console.log(puntoGEOM);
         //res.json(puntoGEOM);
         //Segundo para cada punto necesitamos hallar sus coordenadas, formato geometría a puntos coordenadas
         // SELECT ST_X(ST_intersection(geom, geom)), ST_Y(ST_intersection(geom, geom))
+        // console.log(JSON.parse((tramo_puntosJSON[0]['multipoints'])));
+        // const coordenadas = (JSON.parse((tramo_puntosJSON[0]['multipoints']))).coordinates;
+        //  res.json(tramo_puntosJSON);
+        // const multipoints = (JSON.parse((tramo_puntosJSON[0]['multipoints'])));
+        //const multipoints = (JSON.parse((tramo_puntosJSON[0])));
+        //const coordenadas = multipoints.coordinates;
+        // console.log(multipoints);
+        tramo_puntosJSON.forEach(async (punto: any) => {
+            //console.log('\n' + (obj['multipoints']));
+            // console.log(JSON.parse(punto['multipoints']));
+            var coordenadas = JSON.parse(punto['multipoints']).coordinates;
+            //console.log("Grupo Coordenadas\n" + coordenadas);
+            //console.log('\n' + (punto.idtramo));
+            coordenadas.forEach(async (coord: any) => {
+                //console.log("\n > (" + coord[0] + "," + coord[1] + ")");
 
-        tramo_puntosCOORJSON.forEach(async (obj: any) => {
-            //console.log("SELECT ST_X('" + obj.punto + "') as longitud , ST_Y('" + obj.punto + "') as latitud");   
-            // console.log("SELECT GeometryType('" + obj.punto + "')as geometríatipo ");    
-            // const xY = await db.query("SELECT ST_X('" + obj.punto + "') as x , ST_Y('" + obj.punto + "') as y");
-            //esto está mal , revisar
-            const xY = await db.query("SELECT ST_X(ST_intersection('" + obj.punto + "','" + obj.punto + "')) as x , ST_Y(ST_intersection('" + obj.punto + "','" + obj.punto + "')) as y");
-            console.log("SELECT ST_X(ST_intersection('" + obj.punto + "','" + obj.punto + "')) as x , ST_Y(ST_intersection('" + obj.punto + "','" + obj.punto + "')) as y");
-            // res.json(xY);
-            //Tercero actualizamos la tabla public.network01_4326 añadiendo, para cada tramo, las coordenadas de tu punto centro
-            xY.forEach(async (obj2: any) => {
-                //await db.query('UPDATE public.Punto set latitud=' + obj2.latitud + ' , longitud=' + obj2.longitud + '  WHERE ogc_fid=' + obj.id);
-                //await db.query('INSERT INTO public.punto set geom=' + tramo_puntosCOORJSON + ', y=' + obj2.y + ' , x=' + obj2.longitud + ' ogc_fidTramo=' + puntoGEOM.id);
+                //console.log('tramo: ' + (punto.idtramo));
+                //  console.log(" Select ST_IsValid( ST_SetSRID(ST_MakePoint(coord[0], coord[1] ),4326)) FROM public.network01_4326");
+                // ST_SetSRID(ST_MakePoint(-71.1043443253471, 42.3150676015829),4326);
+                //const geometrías = await db.query("Select ST_SetSRID(ST_MakePoint(" + coord[0] + "," + coord[1] + "),4326) as geom");
+
+                // geometrías.forEach(async (obj: any) => {               
+               await db.query("INSERT INTO public.punto (ogc_fid_tramo,x,y,geom) VALUES (" + punto.idtramo + "," + coord[0] + "," + coord[1] + ",(ST_SetSRID(ST_MakePoint(" + coord[0] + "," + coord[1] +"),4326)))");
+               // console.log("INSERT INTO public.punto (ogc_fid_tramo,x,y,geom) VALUES (" + punto.idtramo + "," + coord[0] + "," + coord[1] + ",( ST_SetSRID(ST_MakePoint(" + coord[0] + "," + coord[1] + "),4326))");
+                //await db.query('UPDATE public.network01_4326 set latitud=' + obj2.latitud + ' , longitud=' + obj2.longitud + '  WHERE ogc_fid=' + obj.id);
                 //console.log('UPDATE  public.network01_4326 set latitud='+ obj2.latitud+' , longitud='+ obj2.longitud+'  WHERE ogc_fid='+obj.id );
+                // });
+
+               // console.log('*****\n ');
+                // res.json(geom);
+                //await db.query("INSERT INTO public.punto set ogc_fid_tramo=" + punto.idtramo + ", x=" + coord[0] + ", y=" + coord[1]+",geom=" + geom+" ");
+                //console.log("INSERT INTO public.punto set ogc_fid_tramo=" + punto.idtramo + ", x=" + coord[0] + ", y=" + coord[1]+",geom=" + geom);   
+
             });
+            // res.json();
+
+            // console.log("SELECT GeometryType('" + obj.punto + "')as geometriatipo ");
+            // const xY = await db.query("SELECT ST_X('" + obj.punto + "') as x , ST_Y('" + obj.punto + "') as y");
+            //res.json(xY);  
+            //     //esto está mal , revisar
+            //     const xY = await db.query("SELECT ST_X(ST_intersection('" + obj.punto + "','" + obj.punto + "')) as x , ST_Y(ST_intersection('" + obj.punto + "','" + obj.punto + "')) as y");
+            //     console.log("SELECT ST_X(ST_intersection('" + obj.punto + "','" + obj.punto + "')) as x , ST_Y(ST_intersection('" + obj.punto + "','" + obj.punto + "')) as y");
+            //     // res.json(xY);
+            //     //Tercero actualizamos la tabla public.network01_4326 añadiendo, para cada tramo, las coordenadas de tu punto centro
+            //     xY.forEach(async (obj2: any) => {
+            //         //await db.query('UPDATE public.Punto set latitud=' + obj2.latitud + ' , longitud=' + obj2.longitud + '  WHERE ogc_fid=' + obj.id);
+            //         //await db.query('INSERT INTO public.punto set geom=' + tramo_puntosCOORJSON + ', y=' + obj2.y + ' , x=' + obj2.longitud + ' ogc_fidTramo=' + puntoGEOM.id);
+            //         //console.log('UPDATE  public.network01_4326 set latitud='+ obj2.latitud+' , longitud='+ obj2.longitud+'  WHERE ogc_fid='+obj.id );
         });
+        // });
     }
 
     public async getInicioTramo(req: Request, res: Response): Promise<any> {
