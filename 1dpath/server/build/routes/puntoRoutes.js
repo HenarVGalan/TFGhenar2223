@@ -21,6 +21,7 @@ class PuntoRoutes {
         this.router.get('/getFinTramo', puntoController_1.default.getFinTramo);
         //getEstaciones
         this.router.get('/getEstaciones', puntoController_1.default.getEstaciones);
+        this.router.get('/interpolar/:idpunto', puntoController_1.default.interpolar);
         //  this.router.get('/:id', puntoController.getOne);
         // this.router.post('/', puntoController.create);
         // this.router.put('/:id', puntoController.update);

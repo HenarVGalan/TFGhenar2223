@@ -1,31 +1,8 @@
 import { Request, Response } from 'express';
 import fetch from 'node-fetch';
+import db from '../database';
 
 class AemetController {
-    //api_key= eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJoZW5hci52ZWxhc2NvMUBhbHUudWNsbS5lcyIsImp0aSI6ImNhZDJmZDk2LTA4MDctNGMyMy05ZmIzLTJkMjFkNGUxNjBkNCIsImlzcyI6IkFFTUVUIiwiaWF0IjoxNjg1MDk1MTk2LCJ1c2VySWQiOiJjYWQyZmQ5Ni0wODA3LTRjMjMtOWZiMy0yZDIxZDRlMTYwZDQiLCJyb2xlIjoiIn0.eOvtg2o-bfmL_JesnFGbE_bgZsWT5naIKMhTPg77o5E
-    // public options = {
-    //     api_key: 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJoZW5hci52ZWxhc2NvMUBhbHUudWNsbS5lcyIsImp0aSI6ImNhZDJmZDk2LTA4MDctNGMyMy05ZmIzLTJkMjFkNGUxNjBkNCIsImlzcyI6IkFFTUVUIiwiaWF0IjoxNjg1MDk1MTk2LCJ1c2VySWQiOiJjYWQyZmQ5Ni0wODA3LTRjMjMtOWZiMy0yZDIxZDRlMTYwZDQiLCJyb2xlIjoiIn0.eOvtg2o-bfmL_JesnFGbE_bgZsWT5naIKMhTPg77o5E',
-    //     headers: {
-    //         'accept': 'application/json',
-    //     }
-    // }
-    // constructor() {
-    // this.options = {
-    //     api_key: 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJoZW5hci52ZWxhc2NvMUBhbHUudWNsbS5lcyIsImp0aSI6ImNhZDJmZDk2LTA4MDctNGMyMy05ZmIzLTJkMjFkNGUxNjBkNCIsImlzcyI6IkFFTUVUIiwiaWF0IjoxNjg1MDk1MTk2LCJ1c2VySWQiOiJjYWQyZmQ5Ni0wODA3LTRjMjMtOWZiMy0yZDIxZDRlMTYwZDQiLCJyb2xlIjoiIn0.eOvtg2o-bfmL_JesnFGbE_bgZsWT5naIKMhTPg77o5E',           
-    //     headers: {
-    //         'accept': 'application/json',
-    //    }
-    // };
-    //  this.options = {
-    //     "method": "GET",
-    //     "hostname": "opendata.aemet.es",
-    //     "api_key": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJoZW5hci52ZWxhc2NvMUBhbHUudWNsbS5lcyIsImp0aSI6ImNhZDJmZDk2LTA4MDctNGMyMy05ZmIzLTJkMjFkNGUxNjBkNCIsImlzcyI6IkFFTUVUIiwiaWF0IjoxNjg1MDk1MTk2LCJ1c2VySWQiOiJjYWQyZmQ5Ni0wODA3LTRjMjMtOWZiMy0yZDIxZDRlMTYwZDQiLCJyb2xlIjoiIn0.eOvtg2o-bfmL_JesnFGbE_bgZsWT5naIKMhTPg77o5E",
-    //     "headers": {
-    //       "cache-control": "no-cache"
-    //     }
-    //   };
-    // }
-
 
     public index(req: Request, res: Response) {
         res.json({ text: 'Aemet Controller' });
@@ -50,16 +27,33 @@ class AemetController {
                         throw new Error(`Error al descargar el fichero! status: ${fileResponse.status}`);
                     }
                     // Leer el contenido del fichero
+                    //console.log(fileResponse);
                     const fileContent = await fileResponse.text();
-                    console.log(fileContent);
+                    aemetController.insertData(JSON.parse(fileContent));
+
                 })
         } catch (err) {
             console.log(err);
         }
     }
     //todo un metodo que reciba por parámetro fileContent
-    //borre e inserte nuevos datos
-    
+    // //borre/sobreescritir/ e inserte nuevos datos
+
+    public async insertData(fileContent: any): Promise<void> {
+        console.log(fileContent);
+        if (!Array.isArray(fileContent)) {
+            throw new Error('El contenido del archivo no es un array válido.');
+        }
+
+        fileContent.forEach(async (estacion: any) => {
+            console.log("INSERT INTO public.valores_climatologicos (fecha, indicativo, nombre, provincia, altitud, tmed, prec, tmin, horatmin, tmax, horatmax, dir, velmedia, racha, horaracha, presmax, horapresmax, presmin, horapresmin) VALUES ('" + estacion.fecha + "','" + estacion.indicativo + "','" + estacion.nombre + "','" + estacion.provincia + "',(" + estacion.altitud + "),(" + parseFloat(estacion.tmed) + "),(" + parseFloat(estacion.prec) + "),(" + parseFloat(estacion.tmin) + "),'" + (estacion.horatmin) + "',(" + parseFloat(estacion.tmax) + "),'" + estacion.horatmax + "',(" + estacion.dir + "),(" + parseFloat(estacion.velmedia) + "),(" + parseFloat(estacion.racha) + "),'" + estacion.horaracha + "',(" + parseFloat(estacion.presMax) + "),(" + estacion.horaPresMax + "),(" + parseFloat(estacion.presMin) + "),(" + estacion.horaPresMin + "))");
+              
+            await db.query("INSERT INTO public.valores_climatologicos (fecha, indicativo, nombre, provincia, altitud, tmed, prec, tmin, horatmin, tmax, horatmax, dir, velmedia, racha, horaracha, presmax, horapresmax, presmin, horapresmin) VALUES ('" + estacion.fecha + "','" + estacion.indicativo + "','" + estacion.nombre + "','" + estacion.provincia + "',(" + estacion.altitud + "),(" + parseFloat(estacion.tmed) + "),(" + parseFloat(estacion.prec) + "),(" + parseFloat(estacion.tmin) + "),'" + (estacion.horatmin) + "',(" + parseFloat(estacion.tmax) + "),'" + estacion.horatmax + "',(" + estacion.dir + "),(" + parseFloat(estacion.velmedia) + "),(" + parseFloat(estacion.racha) + "),'" + estacion.horaracha + "',(" + parseFloat(estacion.presMax) + "),(" + estacion.horaPresMax + "),(" + parseFloat(estacion.presMin) + "),(" + estacion.horaPresMin + "))");
+
+        });
+    } 
+
+
 
 }
 

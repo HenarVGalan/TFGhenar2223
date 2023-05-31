@@ -101,11 +101,30 @@ class PuntoController {
             // Para ese punto obtener estacionesnear, y para cada una getData, despues con lo que devuelva habrá que insertar valor
         });
     }
+    //Con el punto que te pasan, calculamos su peso, a partir de valor de las estaciones cercanas
+    //este valor pues será precipitacion es esa estación por ejemplo
     interpolar(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { idpunto } = req.params;
-            //hacer calculos entre los punto.estacionesnear.valor
-            //devolver resultado de esos calculos
+            let sumDistinv = 0;
+            let peso_prec = 0; //esto habría que factorizar, porque puede ser precipitacion o el peso de temperatura, etc
+            const prec = 1; //esto es un ejemplo, punto.estacionesnear.peso (precitipitacion)
+            const punto = yield database_1.default.query("SELECT estacionesnear, peso_prec FROM public.punto WHERE punto.id=" + idpunto);
+            console.log(punto[0].estacionesnear);
+            (punto[0].estacionesnear).forEach((estacion) => __awaiter(this, void 0, void 0, function* () {
+                console.log(estacion.distancia);
+                sumDistinv += (1 / ((estacion.distancia) * (estacion.distancia)));
+                console.log("1/d^2: " + (1 / ((estacion.distancia) * (estacion.distancia))));
+                console.log("sumatorio  " + sumDistinv);
+            }));
+            console.log("sumatorio final " + sumDistinv);
+            (punto[0].estacionesnear).forEach((estacion) => __awaiter(this, void 0, void 0, function* () {
+                const inv_dd = (1 / ((estacion.distancia) * (estacion.distancia)));
+                peso_prec += 1 * (inv_dd / sumDistinv);
+                console.log("w: " + (1 * (inv_dd / sumDistinv)));
+            }));
+            console.log("zj " + peso_prec);
+            yield database_1.default.query("UPDATE public.punto set peso_prec=" + peso_prec + " WHERE punto.id=" + idpunto);
         });
     }
 }
