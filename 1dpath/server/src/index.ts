@@ -6,9 +6,9 @@ import indexRoutes from './routes/indexRoutes';
 import tramosRoutes from './routes/tramosRoutes';
 import poligonoRoutes from './routes/poligonoRoutes';
 import puntoRoutes from './routes/puntoRoutes';
+import aemetRoutes from './routes/aemetRoutes';
 
-//API KEY Servicio AEMET OpenData
-// eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJoZW5hci52ZWxhc2NvMUBhbHUudWNsbS5lcyIsImp0aSI6ImNhZDJmZDk2LTA4MDctNGMyMy05ZmIzLTJkMjFkNGUxNjBkNCIsImlzcyI6IkFFTUVUIiwiaWF0IjoxNjg1MDk1MTk2LCJ1c2VySWQiOiJjYWQyZmQ5Ni0wODA3LTRjMjMtOWZiMy0yZDIxZDRlMTYwZDQiLCJyb2xlIjoiIn0.eOvtg2o-bfmL_JesnFGbE_bgZsWT5naIKMhTPg77o5E
+
 class Server {
 
     public app: Application;
@@ -34,6 +34,8 @@ class Server {
         this.app.use('/api/tramos', tramosRoutes);
         this.app.use('/api/poligonos', poligonoRoutes);
         this.app.use('/api/punto', puntoRoutes);
+        this.app.use('/api/aemet', aemetRoutes);
+
     }
 
     start() {

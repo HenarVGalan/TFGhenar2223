@@ -10,8 +10,7 @@ const indexRoutes_1 = __importDefault(require("./routes/indexRoutes"));
 const tramosRoutes_1 = __importDefault(require("./routes/tramosRoutes"));
 const poligonoRoutes_1 = __importDefault(require("./routes/poligonoRoutes"));
 const puntoRoutes_1 = __importDefault(require("./routes/puntoRoutes"));
-//API KEY Servicio AEMET OpenData
-// eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJoZW5hci52ZWxhc2NvMUBhbHUudWNsbS5lcyIsImp0aSI6ImNhZDJmZDk2LTA4MDctNGMyMy05ZmIzLTJkMjFkNGUxNjBkNCIsImlzcyI6IkFFTUVUIiwiaWF0IjoxNjg1MDk1MTk2LCJ1c2VySWQiOiJjYWQyZmQ5Ni0wODA3LTRjMjMtOWZiMy0yZDIxZDRlMTYwZDQiLCJyb2xlIjoiIn0.eOvtg2o-bfmL_JesnFGbE_bgZsWT5naIKMhTPg77o5E
+const aemetRoutes_1 = __importDefault(require("./routes/aemetRoutes"));
 class Server {
     constructor() {
         this.app = (0, express_1.default)();
@@ -30,6 +29,7 @@ class Server {
         this.app.use('/api/tramos', tramosRoutes_1.default);
         this.app.use('/api/poligonos', poligonoRoutes_1.default);
         this.app.use('/api/punto', puntoRoutes_1.default);
+        this.app.use('/api/aemet', aemetRoutes_1.default);
     }
     start() {
         this.app.listen(this.app.get('port'), () => {

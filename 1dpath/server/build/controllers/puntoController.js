@@ -15,16 +15,19 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const database_1 = __importDefault(require("../database"));
 class PuntoController {
     index(req, res) {
-        // res.send('tramosController');
-        // db.query('DESCRIBE tramos');
         res.json({ text: 'puntoController' });
     }
     list(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            //Primero necesitamos la geometría de puntos aleatorios de cada tramo F
-            //const puntosGEOM = await db.query("SELECT ST_AsGeoJSON(st_generatepoints(geom,5,1996)) as geojson, ogc_fid as id FROM public.network01_4326 LIMIT 2 ");
-            // res.json(puntosGEOM);
-            console.log("SELECT ST_AsGeoJSON(st_generatepoints(geom,5,1996)) as geojson, ogc_fid as id FROM public.network01_4326 LIMIT 2 ");
+            const puntos = yield database_1.default.query("SELECT * FROM public.punto");
+            res.json(puntos);
+        });
+    }
+    listpuntostramo(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { idtramo } = req.params;
+            const puntos = yield database_1.default.query("SELECT * FROM public.punto WHERE punto.ogc_fid_tramo=" + idtramo);
+            res.json(puntos);
         });
     }
     getCoordenadasPuntostramo(req, res) {
@@ -49,7 +52,7 @@ class PuntoController {
     }
     //FUNCION entrada: geometría de un punto y de salidas las coordenadas
     //ST_Points
-    getCoordenadas(req, res) {
+    setPuntos(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const tramo_puntosJSON = yield database_1.default.query('Select ST_AsGeoJSON(ST_Points(geom))as multipoints, ogc_fid as idtramo  FROM public.network01_4326 ORDER BY idTramo');
             tramo_puntosJSON.forEach((punto) => __awaiter(this, void 0, void 0, function* () {
@@ -72,6 +75,37 @@ class PuntoController {
             //Primero sacamos un punto inicio de cada tramo, punto formato geometría
             const finGeoJson = yield database_1.default.query('Select puntoFin_latitud as lat, puntoFin_longitud as long FROM public.network01_4326');
             res.json(finGeoJson);
+        });
+    }
+    getEstaciones(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const puntos = yield database_1.default.query('Select id as idp, x, y, geom FROM public.punto');
+            puntos.forEach((punto) => __awaiter(this, void 0, void 0, function* () {
+                const estaciones = yield database_1.default.query("SELECT idema,  ST_Distance('" + punto.geom + "',aemet.geom)*100 AS distancia FROM public.estaciones_aemet aemet WHERE ST_DWithin('" + punto.geom + "', aemet.geom, 0.4) ");
+                yield database_1.default.query("UPDATE public.punto set estacionesnear='" + JSON.stringify(estaciones) + "' WHERE id=" + punto.idp);
+            }));
+        });
+    }
+    //TO DO
+    setPeso(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            //añadir a punto.peso 
+            //interpolar()
+        });
+    }
+    //funcion: actualizar punto.estacionesnear.valor 
+    setvalorEstaciones(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { idpunto } = req.params;
+            //llamar a funcion de aemet hay que pasarle el idema, getData(idema)
+            // Para ese punto obtener estacionesnear, y para cada una getData, despues con lo que devuelva habrá que insertar valor
+        });
+    }
+    interpolar(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { idpunto } = req.params;
+            //hacer calculos entre los punto.estacionesnear.valor
+            //devolver resultado de esos calculos
         });
     }
 }
