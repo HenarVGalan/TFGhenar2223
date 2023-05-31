@@ -8,7 +8,7 @@ class AemetController {
         res.json({ text: 'Aemet Controller' });
     }
 
-    public async getData(req: Request, res: Response): Promise<void> {
+    public async getData(req: Request): Promise<void> {
         const { idema } = req.params;
         const url = "https://opendata.aemet.es/opendata/api/valores/climatologicos/diarios/datos/fechaini/2023-05-28T00%3A00%3A00UTC/fechafin/2023-05-28T23%3A00%3A00UTC/estacion/2829B";
         try {

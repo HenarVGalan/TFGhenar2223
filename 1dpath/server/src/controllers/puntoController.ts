@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import db from '../database';
+import aemetController from './aemetController';
 
 class PuntoController {
 
@@ -52,7 +53,7 @@ class PuntoController {
             });
         });
     }
-// to do refactorizarF
+    // to do refactorizarF
     public async getInicioTramo(req: Request, res: Response): Promise<any> {
         //Primero sacamos un punto inicio de cada tramo, punto formato geometría
         const inicioGeoJson = await db.query('Select puntoInicio_latitud as lat, puntoInicio_longitud as long FROM public.network01_4326');
@@ -75,11 +76,22 @@ class PuntoController {
     }
 
     //TO DO
- 
+
     //funcion: actualizar punto.estacionesnear.valor 
     public async setvalorEstaciones(req: Request, res: Response): Promise<any> {
         const { idpunto } = req.params;
-        //llamar a funcion de aemet hay que pasarle el idema, getData(idema)
+        const punto = await db.query("SELECT estacionesnear, peso_prec FROM public.punto WHERE punto.id=" + idpunto);
+        (punto[0].estacionesnear).forEach(async (estacion: any) => {
+            console.log(estacion.estacionesnear);
+            //1 llamar a funcion de aemet hay que pasarle el idema, getData(idema)
+            aemetController.getData(estacion.idema);
+            //2 buscar en public.valores_climatologicos idema , si hay varias entradas ver si hacer media ***
+            const prec = await db.query("SELECT prec FROM valores_climatologicos WHERE indicativo=" + estacion.idema);
+            //3 insertar valor en la estacion cerca correspondiente del punto 
+            //upate, sería algo así , habría que revisar como acceder a punto.estacionesnear. peso prec
+            //await db.query("UPDATE public.punto set punto.estacionesnear.peso_prec=" + prec + " WHERE punto.id=" + idpunto+"AND punto.estacionesnear.idema= "+estacion.idema);
+        });
+
         // Para ese punto obtener estacionesnear, y para cada una getData, despues con lo que devuelva habrá que insertar valor
     }
     //Con el punto que te pasan, calculamos su peso, a partir de valor de las estaciones cercanas

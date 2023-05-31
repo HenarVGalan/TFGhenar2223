@@ -13,6 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const database_1 = __importDefault(require("../database"));
+const aemetController_1 = __importDefault(require("./aemetController"));
 class PuntoController {
     index(req, res) {
         res.json({ text: 'puntoController' });
@@ -93,7 +94,17 @@ class PuntoController {
     setvalorEstaciones(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { idpunto } = req.params;
-            //llamar a funcion de aemet hay que pasarle el idema, getData(idema)
+            const punto = yield database_1.default.query("SELECT estacionesnear, peso_prec FROM public.punto WHERE punto.id=" + idpunto);
+            (punto[0].estacionesnear).forEach((estacion) => __awaiter(this, void 0, void 0, function* () {
+                console.log(estacion.estacionesnear);
+                //1 llamar a funcion de aemet hay que pasarle el idema, getData(idema)
+                aemetController_1.default.getData(estacion.idema);
+                //2 buscar en public.valores_climatologicos idema , si hay varias entradas ver si hacer media ***
+                const prec = yield database_1.default.query("SELECT prec FROM valores_climatologicos WHERE indicativo=" + estacion.idema);
+                //3 insertar valor en la estacion cerca correspondiente del punto 
+                //upate, sería algo así , habría que revisar como acceder a punto.estacionesnear. peso prec
+                //await db.query("UPDATE public.punto set punto.estacionesnear.peso_prec=" + prec + " WHERE punto.id=" + idpunto+"AND punto.estacionesnear.idema= "+estacion.idema);
+            }));
             // Para ese punto obtener estacionesnear, y para cada una getData, despues con lo que devuelva habrá que insertar valor
         });
     }
