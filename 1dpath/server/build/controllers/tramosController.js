@@ -148,6 +148,24 @@ class TramosController {
             res.json(tramosferrocarril);
         });
     }
+    setPeso(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { idtramo } = req.params;
+            let peso_prec = 0;
+            //1 Se obtienen los puntos de un tramo
+            const puntos = yield database_1.default.query("SELECT * FROM public.punto WHERE punto.ogc_fid_tramo=" + idtramo);
+            //2 sumatorio de los pesos 
+            puntos.forEach((punto) => __awaiter(this, void 0, void 0, function* () {
+                peso_prec += punto.peso_prec;
+            }));
+            //3 update 
+            yield database_1.default.query("UPDATE public.network01_4326 set peso_prec='" + peso_prec + "' WHERE ogc_fid=" + idtramo);
+            //SELECT * FROM public.network01_4326
+            // res.json(puntos);
+            //añadir a tramo.peso 
+            //interpolar()
+        });
+    }
 }
 const tramosController = new TramosController();
 exports.default = tramosController;

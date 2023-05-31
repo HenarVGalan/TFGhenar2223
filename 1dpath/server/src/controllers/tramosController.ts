@@ -133,6 +133,24 @@ class TramosController {
         res.json(tramosferrocarril);
 
     }
+    public async setPeso(req: Request, res: Response): Promise<any> {
+        const { idtramo } = req.params;
+        let peso_prec = 0;
+        //1 Se obtienen los puntos de un tramo
+
+        const puntos = await db.query("SELECT * FROM public.punto WHERE punto.ogc_fid_tramo=" + idtramo);
+        //2 sumatorio de los pesos 
+        puntos.forEach(async (punto: any) => {
+            peso_prec+= punto.peso_prec;
+        });
+        //3 update 
+        await db.query("UPDATE public.network01_4326 set peso_prec='" + peso_prec + "' WHERE ogc_fid=" + idtramo);
+        //SELECT * FROM public.network01_4326
+        // res.json(puntos);
+
+        //añadir a tramo.peso 
+        //interpolar()
+    }
 
 }
 

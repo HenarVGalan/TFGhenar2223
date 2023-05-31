@@ -52,6 +52,7 @@ class PuntoController {
     }
     //FUNCION entrada: geometría de un punto y de salidas las coordenadas
     //ST_Points
+    //revisar esta funcion no se le pasan parámetros, solo es de insertar
     setPuntos(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const tramo_puntosJSON = yield database_1.default.query('Select ST_AsGeoJSON(ST_Points(geom))as multipoints, ogc_fid as idtramo  FROM public.network01_4326 ORDER BY idTramo');
@@ -63,6 +64,7 @@ class PuntoController {
             }));
         });
     }
+    // to do refactorizarF
     getInicioTramo(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             //Primero sacamos un punto inicio de cada tramo, punto formato geometría
@@ -87,12 +89,6 @@ class PuntoController {
         });
     }
     //TO DO
-    setPeso(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            //añadir a punto.peso 
-            //interpolar()
-        });
-    }
     //funcion: actualizar punto.estacionesnear.valor 
     setvalorEstaciones(req, res) {
         return __awaiter(this, void 0, void 0, function* () {

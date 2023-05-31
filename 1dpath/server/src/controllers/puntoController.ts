@@ -41,7 +41,7 @@ class PuntoController {
 
     //FUNCION entrada: geometría de un punto y de salidas las coordenadas
     //ST_Points
-
+    //revisar esta funcion no se le pasan parámetros, solo es de insertar
     public async setPuntos(req: Request, res: Response): Promise<any> {
         const tramo_puntosJSON = await db.query('Select ST_AsGeoJSON(ST_Points(geom))as multipoints, ogc_fid as idtramo  FROM public.network01_4326 ORDER BY idTramo');
 
@@ -52,7 +52,7 @@ class PuntoController {
             });
         });
     }
-
+// to do refactorizarF
     public async getInicioTramo(req: Request, res: Response): Promise<any> {
         //Primero sacamos un punto inicio de cada tramo, punto formato geometría
         const inicioGeoJson = await db.query('Select puntoInicio_latitud as lat, puntoInicio_longitud as long FROM public.network01_4326');
@@ -75,11 +75,7 @@ class PuntoController {
     }
 
     //TO DO
-    public async setPeso(req: Request, res: Response): Promise<any> {
-        //añadir a punto.peso 
-        //interpolar()
-    }
-
+ 
     //funcion: actualizar punto.estacionesnear.valor 
     public async setvalorEstaciones(req: Request, res: Response): Promise<any> {
         const { idpunto } = req.params;
@@ -92,20 +88,20 @@ class PuntoController {
         const { idpunto } = req.params;
         let sumDistinv = 0;
         let peso_prec = 0; //esto habría que factorizar, porque puede ser precipitacion o el peso de temperatura, etc
-        const prec =1;//esto es un ejemplo, punto.estacionesnear.peso (precitipitacion)
+        const prec = 1;//esto es un ejemplo, punto.estacionesnear.peso (precitipitacion)
         const punto = await db.query("SELECT estacionesnear, peso_prec FROM public.punto WHERE punto.id=" + idpunto);
         console.log(punto[0].estacionesnear);
         (punto[0].estacionesnear).forEach(async (estacion: any) => {
             console.log(estacion.distancia);
-            sumDistinv +=  (1 / ((estacion.distancia) * (estacion.distancia)));
-            console.log("1/d^2: "+(1/((estacion.distancia) * (estacion.distancia))));
-            console.log("sumatorio  " +sumDistinv);
+            sumDistinv += (1 / ((estacion.distancia) * (estacion.distancia)));
+            console.log("1/d^2: " + (1 / ((estacion.distancia) * (estacion.distancia))));
+            console.log("sumatorio  " + sumDistinv);
         });
-        console.log("sumatorio final " +sumDistinv);
+        console.log("sumatorio final " + sumDistinv);
         (punto[0].estacionesnear).forEach(async (estacion: any) => {
             const inv_dd = (1 / ((estacion.distancia) * (estacion.distancia)));
             peso_prec += 1 * (inv_dd / sumDistinv);
-            console.log("w: "+ (1 * (inv_dd / sumDistinv)));
+            console.log("w: " + (1 * (inv_dd / sumDistinv)));
         });
         console.log("zj " + peso_prec);
         await db.query("UPDATE public.punto set peso_prec=" + peso_prec + " WHERE punto.id=" + idpunto);
