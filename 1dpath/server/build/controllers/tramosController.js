@@ -154,27 +154,16 @@ class TramosController {
     }
     setConsecutivos(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { idtramo } = req.params;
-            let peso_prec = 0;
             //1 Obtener punto final de ese tramo 
-            const tramopfinal = yield database_1.default.query("SELECT pfinal, ogc_fid as idtramofinal FROM public.network01_4326 WHERE ogc_fid=" + idtramo);
-            //2 Para ese punto final de ese tramo buscar los punto iniciales mas cercanos de otros tramos
-            // console.log(tramopfinal[0].pfinal[0].geom);
-            const tramos = yield database_1.default.query("SELECT pinicio FROM public.network01_4326 ");
-            tramos.forEach((tramospinicio) => __awaiter(this, void 0, void 0, function* () {
+            const tramospfinal = yield database_1.default.query("SELECT pfinal, ogc_fid as idtramofinal FROM public.network01_4326");
+            tramospfinal.forEach((tramopfinal) => __awaiter(this, void 0, void 0, function* () {
                 // console.log(tramospinicio.pinicio[0].geom);
                 //  console.log("SELECT ogc_fid,  ST_Distance('" + tramopfinal[0].pfinal[0].geom + "', (network01.pinicio-> 0 ->> 'geom'))*100 AS distancia FROM public.network01_4326 network01 WHERE ST_DWithin('" + tramopfinal[0].pfinal[0].geom + "', (network01.pinicio-> 0 ->> 'geom'), 0.4) ");
-                const cercanos = yield database_1.default.query("SELECT ogc_fid,  ST_Distance('" + tramopfinal[0].pfinal[0].geom + "', (network01.pinicio-> 0 ->> 'geom'))*100 AS distancia FROM public.network01_4326 network01 WHERE ST_DWithin('" + tramopfinal[0].pfinal[0].geom + "', (network01.pinicio-> 0 ->> 'geom'), 0.6) ");
-                yield database_1.default.query("UPDATE public.network01_4326 set tramos_consecutivos='" + JSON.stringify(cercanos) + "' WHERE ogc_fid=" + tramopfinal[0].idtramofinal);
-                res.json(cercanos);
+                const cercanos = yield database_1.default.query("SELECT ogc_fid,  ST_Distance('" + tramopfinal.pfinal[0].geom + "', (network01.pinicio-> 0 ->> 'geom'))*100 AS distancia FROM public.network01_4326 network01 WHERE ST_DWithin('" + tramopfinal.pfinal[0].geom + "', (network01.pinicio-> 0 ->> 'geom'), 0.63) ");
+                yield database_1.default.query("UPDATE public.network01_4326 set tramos_consecutivos='" + JSON.stringify(cercanos) + "' WHERE ogc_fid=" + tramopfinal.idtramofinal);
             }));
-            //tramos_consecutivos
-            // console.log("SELECT ogc_fid,  ST_Distance('" + (tramo[0].pfinal[0].geom) + "',network01.pinicio[0].geom)*100 AS distancia FROM public.network01_4326 network01 WHERE ST_DWithin('" + (tramo[0].pfinal[0].geom) + "', network01.pinicio[0].geom, 0.4) ");
-            // const cercanos = await db.query("SELECT ogc_fid,  ST_Distance('" + (tramo[0].pfinal[0].geom) + "',network01.pinicio[0].geom)*100 AS distancia FROM public.network01_4326 network01 WHERE ST_DWithin('" + (tramo[0].pfinal[0].geom) + "', network01.pinicio[0].geom, 0.4) ");
-            //WHERE ST_DWithin('" + punto.geom + "', aemet.geom, 0.4)
-            //ST_Distance('" + punto.geom + "',aemet.geom)*100 AS distancia
-            //3 insertar en consecutivos los id de tramo encontrados 
-            // await db.query("UPDATE public.network01_4326 set peso_prec='" + peso_prec + "' WHERE ogc_fid=" + idtramo);
+            const consecutivos = yield database_1.default.query("SELECT ogc_fid, tramos_consecutivos FROM public.network01_4326");
+            res.json(consecutivos);
         });
     }
 }
