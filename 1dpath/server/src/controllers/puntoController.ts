@@ -78,42 +78,54 @@ class PuntoController {
     //TO DO
 
     //funcion: actualizar punto.estacionesnear.valor 
+    // Para ese punto obtener estacionesnear, y para cada una getData, despues con lo que devuelva habrá que insertar valor
     public async setvalorEstaciones(req: Request, res: Response): Promise<any> {
         const { idpunto } = req.params;
-        const punto = await db.query("SELECT estacionesnear, peso_prec FROM public.punto WHERE punto.id=" + idpunto);
+        const punto = await db.query("SELECT estacionesnear FROM public.punto WHERE punto.id=" + idpunto);
+        // res.json(punto[0].estacionesnear);
         (punto[0].estacionesnear).forEach(async (estacion: any) => {
-            console.log(estacion.estacionesnear);
             //1 llamar a funcion de aemet hay que pasarle el idema, getData(idema)
-            aemetController.getData(estacion.idema);
-            //2 buscar en public.valores_climatologicos idema , si hay varias entradas ver si hacer media ***
-            const prec = await db.query("SELECT prec FROM valores_climatologicos WHERE indicativo=" + estacion.idema);
-            //3 insertar valor en la estacion cerca correspondiente del punto 
+            // const prec_estacion = aemetController.getData(estacion.idema);
+            const prec_estacion = 2;
+            estacion.prec = prec_estacion; // aemetController.getData(estacion.idema);
+            // console.log(estacion);
+
             //upate, sería algo así , habría que revisar como acceder a punto.estacionesnear. peso prec
             //await db.query("UPDATE public.punto set punto.estacionesnear.peso_prec=" + prec + " WHERE punto.id=" + idpunto+"AND punto.estacionesnear.idema= "+estacion.idema);
         });
+        // res.json(punto[0].estacionesnear);
+        // console.log(punto[0].estacionesnear);
+        //  console.log(JSON.stringify(punto[0].estacionesnear));
+        //2  insertar valor en la estacion cerca correspondiente del punto      
+        await db.query("UPDATE public.punto set estacionesnear=' " + JSON.stringify(punto[0].estacionesnear) + "' WHERE id=" + idpunto);
+        res.json(punto[0].estacionesnear);
 
-        // Para ese punto obtener estacionesnear, y para cada una getData, despues con lo que devuelva habrá que insertar valor
     }
     //Con el punto que te pasan, calculamos su peso, a partir de valor de las estaciones cercanas
     //este valor pues será precipitacion es esa estación por ejemplo
-    public async interpolar(req: Request, res: Response): Promise<any> {
+    public async interpolar(req: Request): Promise<any> {
         const { idpunto } = req.params;
         let sumDistinv = 0;
+        //estacion.valor ?
         let peso_prec = 0; //esto habría que factorizar, porque puede ser precipitacion o el peso de temperatura, etc
         const prec = 1;//esto es un ejemplo, punto.estacionesnear.peso (precitipitacion)
-        const punto = await db.query("SELECT estacionesnear, peso_prec FROM public.punto WHERE punto.id=" + idpunto);
+        const punto = await db.query("SELECT estacionesnear FROM public.punto WHERE punto.id=" + idpunto);
         console.log(punto[0].estacionesnear);
+
         (punto[0].estacionesnear).forEach(async (estacion: any) => {
             console.log(estacion.distancia);
+            console.log(estacion.prec);
             sumDistinv += (1 / ((estacion.distancia) * (estacion.distancia)));
             console.log("1/d^2: " + (1 / ((estacion.distancia) * (estacion.distancia))));
             console.log("sumatorio  " + sumDistinv);
         });
         console.log("sumatorio final " + sumDistinv);
         (punto[0].estacionesnear).forEach(async (estacion: any) => {
+            // 1/d^2
             const inv_dd = (1 / ((estacion.distancia) * (estacion.distancia)));
-            peso_prec += 1 * (inv_dd / sumDistinv);
-            console.log("w: " + (1 * (inv_dd / sumDistinv)));
+            // prec interpolada (sumatorio) = prec de esa estacion * {(1/d^2)/sumatorio(de 1/d^2)} 
+            peso_prec += (estacion.prec) * (inv_dd / sumDistinv);
+            console.log("w: " + ((inv_dd / sumDistinv)));
         });
         console.log("zj " + peso_prec);
         await db.query("UPDATE public.punto set peso_prec=" + peso_prec + " WHERE punto.id=" + idpunto);

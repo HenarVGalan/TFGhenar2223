@@ -22,7 +22,8 @@ class PuntoRoutes {
         //getEstaciones
         this.router.get('/getEstaciones', puntoController.getEstaciones);
         this.router.get('/interpolar/:idpunto',puntoController.interpolar);
-       
+       //setvalorEstaciones
+       this.router.get('/setvalorEstaciones/:idpunto',puntoController.setvalorEstaciones);
         //  this.router.get('/:id', puntoController.getOne);
         // this.router.post('/', puntoController.create);
         // this.router.put('/:id', puntoController.update);
