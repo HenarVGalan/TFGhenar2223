@@ -13,6 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const database_1 = __importDefault(require("../database"));
+const aemetController_1 = __importDefault(require("./aemetController"));
 class PuntoController {
     index(req, res) {
         res.json({ text: 'puntoController' });
@@ -99,8 +100,13 @@ class PuntoController {
             (punto[0].estacionesnear).forEach((estacion) => __awaiter(this, void 0, void 0, function* () {
                 //1 llamar a funcion de aemet hay que pasarle el idema, getData(idema)
                 // const prec_estacion = aemetController.getData(estacion.idema);
-                const prec_estacion = 2;
-                estacion.prec = prec_estacion; // aemetController.getData(estacion.idema);
+                //const prec_estacion = 2;
+                try {
+                    estacion.prec = aemetController_1.default.getData(estacion.idema);
+                }
+                catch (err) {
+                    console.log(err);
+                }
                 // console.log(estacion);
                 //upate, sería algo así , habría que revisar como acceder a punto.estacionesnear. peso prec
                 //await db.query("UPDATE public.punto set punto.estacionesnear.peso_prec=" + prec + " WHERE punto.id=" + idpunto+"AND punto.estacionesnear.idema= "+estacion.idema);

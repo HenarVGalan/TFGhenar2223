@@ -86,8 +86,12 @@ class PuntoController {
         (punto[0].estacionesnear).forEach(async (estacion: any) => {
             //1 llamar a funcion de aemet hay que pasarle el idema, getData(idema)
             // const prec_estacion = aemetController.getData(estacion.idema);
-            const prec_estacion = 2;
-            estacion.prec = prec_estacion; // aemetController.getData(estacion.idema);
+            //const prec_estacion = 2;
+            try {
+                estacion.prec = aemetController.getData(estacion.idema);
+            } catch (err) {
+                console.log(err);
+            }
             // console.log(estacion);
 
             //upate, sería algo así , habría que revisar como acceder a punto.estacionesnear. peso prec
