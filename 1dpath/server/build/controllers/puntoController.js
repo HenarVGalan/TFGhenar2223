@@ -65,7 +65,7 @@ class PuntoController {
             }));
         });
     }
-    // to do refactorizarF
+    // to do refactorizar 
     getInicioTramo(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             //Primero sacamos un punto inicio de cada tramo, punto formato geometría

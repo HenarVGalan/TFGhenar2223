@@ -24,7 +24,8 @@ class TramosRoutes {
         this.router.get('/tramosObras', tramosController_1.default.getTramosObras);
         this.router.get('/tramosFerrocarril', tramosController_1.default.getTramosFerrocarril);
         this.router.get('/:id', tramosController_1.default.getOne);
-        this.router.get('/setPeso/:idtramo', tramosController_1.default.setPeso);
+        this.router.get('/:idtramo/setPeso', tramosController_1.default.setPeso);
+        this.router.get('/:idtramo/setConsecutivos', tramosController_1.default.setConsecutivos);
         // this.router.post('/', tramosController.create);
         // this.router.put('/:id', tramosController.update);
         // this.router.delete('/:id', tramosController.delete);

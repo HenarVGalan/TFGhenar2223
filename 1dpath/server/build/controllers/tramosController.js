@@ -52,6 +52,7 @@ class TramosController {
         });
     }
     //(http://localhost:3000/api/tramos//centroTramo',
+    // to do: este metodo actualizar, ponerlo igual inicio y fin
     getCoordenadasCentroTramo(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             //const { id } = req.params;
@@ -72,42 +73,31 @@ class TramosController {
             res.json(coordenadasCentroTramo);
         });
     }
+    // to do refactorizar (funcion , centro, inicio y fin , hacen lo mismo asique espabila )
     getCoordenadasInicioTramo(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            //Primero sacamos un punto inicio de cada tramo, punto formato geometría
-            const inicioGEOM = yield database_1.default.query('Select ST_StartPoint(ST_LineMerge(geom)) as iniciotramo, ogc_fid as id FROM public.network01_4326');
-            //Segundo para cada punto necesitamos hallar sus coordenadas, formato geometría a 
-            inicioGEOM.forEach((obj) => __awaiter(this, void 0, void 0, function* () {
-                //console.log(obj);
-                const xY = yield database_1.default.query("SELECT ST_X('" + obj.iniciotramo + "') as longitud , ST_Y('" + obj.iniciotramo + "') as latitud");
-                // console.log(obj.inicioTramo);
-                //Tercero actualizamos la tabla public.network01_4326 añadiendo, para cada tramo, las coordenadas de tu punto inicio
-                xY.forEach((obj2) => __awaiter(this, void 0, void 0, function* () {
-                    yield database_1.default.query('UPDATE public.network01_4326 set puntoinicio_longitud=' + obj2.longitud + ' , puntoinicio_latitud=' + obj2.latitud + '  WHERE ogc_fid=' + obj.id);
-                }));
+            const inicioGEOM = yield database_1.default.query('Select ST_StartPoint(ST_LineMerge(geom)) as geominiciotramo, ogc_fid as id FROM public.network01_4326');
+            inicioGEOM.forEach((tramo) => __awaiter(this, void 0, void 0, function* () {
+                const xY = yield database_1.default.query("SELECT ST_X('" + tramo.geominiciotramo + "') as longitud , ST_Y('" + tramo.geominiciotramo + "') as latitud");
+                //console.log(xY[0].longitud + '},{y=' + xY[0].latitud);
+                tramo.pinicio = [{ "x": xY[0].longitud, "y": xY[0].latitud, "geom": tramo.geominiciotramo }];
+                yield database_1.default.query("UPDATE public.network01_4326 set pinicio=' " + JSON.stringify(tramo.pinicio) + "' WHERE ogc_fid=" + tramo.id);
             }));
-            //Cuarto mostramos como resultado las coordenadas del punto inicio de todos los tramos
-            const coordenadasInicioTramo = yield database_1.default.query('SELECT ogc_fid, puntoinicio_longitud,puntoinicio_latitud FROM public.network01_4326 ORDER BY ogc_fid ASC');
-            res.json(coordenadasInicioTramo);
+            const inicioTramo = yield database_1.default.query('SELECT ogc_fid, pinicio FROM public.network01_4326 ORDER BY ogc_fid ASC');
+            res.json(inicioTramo);
         });
     }
     getCoordenadasFinTramo(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            //Primero sacamos un punto inicio de cada tramo, punto formato geometría
-            const finGEOM = yield database_1.default.query('Select ST_EndPoint(ST_LineMerge(geom)) as fintramo, ogc_fid as id FROM public.network01_4326');
-            //Segundo para cada punto necesitamos hallar sus coordenadas, formato geometría a 
-            finGEOM.forEach((obj) => __awaiter(this, void 0, void 0, function* () {
-                //console.log(obj);
-                const xY = yield database_1.default.query("SELECT ST_X('" + obj.fintramo + "') as longitud , ST_Y('" + obj.fintramo + "') as latitud");
-                // console.log(obj.inicioTramo);
-                //Tercero actualizamos la tabla public.network01_4326 añadiendo, para cada tramo, las coordenadas de tu punto inicio
-                xY.forEach((obj2) => __awaiter(this, void 0, void 0, function* () {
-                    yield database_1.default.query('UPDATE public.network01_4326 set puntofin_longitud=' + obj2.longitud + ' , puntofin_latitud=' + obj2.latitud + '  WHERE ogc_fid=' + obj.id);
-                }));
+            const finGEOM = yield database_1.default.query('Select ST_EndPoint(ST_LineMerge(geom)) as geomfintramo, ogc_fid as id FROM public.network01_4326');
+            finGEOM.forEach((tramo) => __awaiter(this, void 0, void 0, function* () {
+                const xY = yield database_1.default.query("SELECT ST_X('" + tramo.geomfintramo + "') as longitud , ST_Y('" + tramo.geomfintramo + "') as latitud");
+                // console.log(xY[0].longitud + '},{y=' + xY[0].latitud);
+                tramo.pfinal = [{ "x": xY[0].longitud, "y": xY[0].latitud, "geom": tramo.geomfintramo }];
+                yield database_1.default.query("UPDATE public.network01_4326 set pfinal=' " + JSON.stringify(tramo.pfinal) + "' WHERE ogc_fid=" + tramo.id);
             }));
-            //Cuarto mostramos como resultado las coordenadas del punto inicio de todos los tramos
-            const coordenadasFinTramo = yield database_1.default.query('SELECT ogc_fid, puntofin_longitud,puntofin_latitud FROM public.network01_4326 ORDER BY ogc_fid ASC');
-            res.json(coordenadasFinTramo);
+            const finalTramo = yield database_1.default.query('SELECT ogc_fid, pfinal FROM public.network01_4326 ORDER BY ogc_fid ASC');
+            res.json(finalTramo);
         });
     }
     getinteseccionTramosPoligono(req, res) {
@@ -160,6 +150,21 @@ class TramosController {
             }));
             //3 update 
             yield database_1.default.query("UPDATE public.network01_4326 set peso_prec='" + peso_prec + "' WHERE ogc_fid=" + idtramo);
+        });
+    }
+    setConsecutivos(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { idtramo } = req.params;
+            let peso_prec = 0;
+            //1 Obtener punto final de ese tramo 
+            const tramo = yield database_1.default.query("SELECT * FROM public.network01_4326 WHERE ogc_fid=" + idtramo);
+            //2 Para ese punto final de ese tramo buscar los punto iniciales mas cercanos de otros tramos
+            console.log(tramo[0]);
+            // const estaciones = await db.query("SELECT idema,  ST_Distance('" + punto.geom + "',aemet.geom)*100 AS distancia FROM public.estaciones_aemet aemet WHERE ST_DWithin('" + punto.geom + "', aemet.geom, 0.4) ");
+            //WHERE ST_DWithin('" + punto.geom + "', aemet.geom, 0.4)
+            //ST_Distance('" + punto.geom + "',aemet.geom)*100 AS distancia
+            //3 insertar en consecutivos los id de tramo encontrados 
+            // await db.query("UPDATE public.network01_4326 set peso_prec='" + peso_prec + "' WHERE ogc_fid=" + idtramo);
         });
     }
 }

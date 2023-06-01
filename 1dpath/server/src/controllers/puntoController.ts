@@ -53,7 +53,7 @@ class PuntoController {
             });
         });
     }
-    // to do refactorizarF
+    // to do refactorizar 
     public async getInicioTramo(req: Request, res: Response): Promise<any> {
         //Primero sacamos un punto inicio de cada tramo, punto formato geometría
         const inicioGeoJson = await db.query('Select puntoInicio_latitud as lat, puntoInicio_longitud as long FROM public.network01_4326');
