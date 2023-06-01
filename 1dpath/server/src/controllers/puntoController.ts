@@ -90,7 +90,7 @@ class PuntoController {
             try {
                 estacion.prec = aemetController.getData(estacion.idema);
             } catch (err) {
-                console.log(err);
+                console.error(err);
             }
             // console.log(estacion);
 

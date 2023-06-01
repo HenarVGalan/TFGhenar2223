@@ -105,7 +105,7 @@ class PuntoController {
                     estacion.prec = aemetController_1.default.getData(estacion.idema);
                 }
                 catch (err) {
-                    console.log(err);
+                    console.error(err);
                 }
                 // console.log(estacion);
                 //upate, sería algo así , habría que revisar como acceder a punto.estacionesnear. peso prec

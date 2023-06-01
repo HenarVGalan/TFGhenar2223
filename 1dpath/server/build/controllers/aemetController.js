@@ -24,30 +24,32 @@ class AemetController {
             // Obtener la fecha de inicio y fin en el formato deseado
             const fechaini = formattedDate.split('T')[0] + 'T00:00:00UTC';
             const fechafin = formattedDate.split('T')[0] + 'T23:59:59UTC';
-            //console.log('https://opendata.aemet.es/opendata/api/valores/climatologicos/diarios/datos/fechaini/' + fechaini + '/fechafin/' + fechafin + '/estacion/' + idema + '/?api_key=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJoZW5hci52ZWxhc2NvMUBhbHUudWNsbS5lcyIsImp0aSI6ImNhZDJmZDk2LTA4MDctNGMyMy05ZmIzLTJkMjFkNGUxNjBkNCIsImlzcyI6IkFFTUVUIiwiaWF0IjoxNjg1MDk1MTk2LCJ1c2VySWQiOiJjYWQyZmQ5Ni0wODA3LTRjMjMtOWZiMy0yZDIxZDRlMTYwZDQiLCJyb2xlIjoiIn0.eOvtg2o-bfmL_JesnFGbE_bgZsWT5naIKMhTPg77o5E');
-            const url = 'https://opendata.aemet.es/opendata/api/valores/climatologicos/diarios/datos/fechaini/' + fechaini + '/fechafin/' + fechafin + '/estacion/' + idema + '/?api_key=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJoZW5hci52ZWxhc2NvMUBhbHUudWNsbS5lcyIsImp0aSI6ImNhZDJmZDk2LTA4MDctNGMyMy05ZmIzLTJkMjFkNGUxNjBkNCIsImlzcyI6IkFFTUVUIiwiaWF0IjoxNjg1MDk1MTk2LCJ1c2VySWQiOiJjYWQyZmQ5Ni0wODA3LTRjMjMtOWZiMy0yZDIxZDRlMTYwZDQiLCJyb2xlIjoiIn0.eOvtg2o-bfmL_JesnFGbE_bgZsWT5naIKMhTPg77o5E';
+            // console.log('https://opendata.aemet.es/opendata/api/valores/climatologicos/diarios/datos/fechaini/' + fechaini + '/fechafin/' + fechafin + '/estacion/' + idema + '/?api_key=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJoZW5hci52ZWxhc2NvMUBhbHUudWNsbS5lcyIsImp0aSI6ImNhZDJmZDk2LTA4MDctNGMyMy05ZmIzLTJkMjFkNGUxNjBkNCIsImlzcyI6IkFFTUVUIiwiaWF0IjoxNjg1MDk1MTk2LCJ1c2VySWQiOiJjYWQyZmQ5Ni0wODA3LTRjMjMtOWZiMy0yZDIxZDRlMTYwZDQiLCJyb2xlIjoiIn0.eOvtg2o-bfmL_JesnFGbE_bgZsWT5naIKMhTPg77o5E');
+            //  const url = 'https://opendata.aemet.es/opendata/api/valores/climatologicos/diarios/datos/fechaini/' + fechaini + '/fechafin/' + fechafin + '/estacion/' + idema + '/?api_key=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJoZW5hci52ZWxhc2NvMUBhbHUudWNsbS5lcyIsImp0aSI6ImNhZDJmZDk2LTA4MDctNGMyMy05ZmIzLTJkMjFkNGUxNjBkNCIsImlzcyI6IkFFTUVUIiwiaWF0IjoxNjg1MDk1MTk2LCJ1c2VySWQiOiJjYWQyZmQ5Ni0wODA3LTRjMjMtOWZiMy0yZDIxZDRlMTYwZDQiLCJyb2xlIjoiIn0.eOvtg2o-bfmL_JesnFGbE_bgZsWT5naIKMhTPg77o5E';
+            const url = "https://opendata.aemet.es/opendata/api/valores/climatologicos/diarios/datos/fechaini/" + fechaini + "/fechafin/" + fechafin + "/estacion/" + idema + "/?api_key=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJoZW5hci52ZWxhc2NvMUBhbHUudWNsbS5lcyIsImp0aSI6ImNhZDJmZDk2LTA4MDctNGMyMy05ZmIzLTJkMjFkNGUxNjBkNCIsImlzcyI6IkFFTUVUIiwiaWF0IjoxNjg1MDk1MTk2LCJ1c2VySWQiOiJjYWQyZmQ5Ni0wODA3LTRjMjMtOWZiMy0yZDIxZDRlMTYwZDQiLCJyb2xlIjoiIn0.eOvtg2o-bfmL_JesnFGbE_bgZsWT5naIKMhTPg77o5E";
+            //const url = "https://opendata.aemet.es/opendata/api/valores/climatologicos/diarios/datos/fechaini/2023-06-01T00:00:00UTC/fechafin/2023-06-01T23:59:59UTC/estacion/8177A/?api_key=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJoZW5hci52ZWxhc2NvMUBhbHUudWNsbS5lcyIsImp0aSI6ImNhZDJmZDk2LTA4MDctNGMyMy05ZmIzLTJkMjFkNGUxNjBkNCIsImlzcyI6IkFFTUVUIiwiaWF0IjoxNjg1MDk1MTk2LCJ1c2VySWQiOiJjYWQyZmQ5Ni0wODA3LTRjMjMtOWZiMy0yZDIxZDRlMTYwZDQiLCJyb2xlIjoiIn0.eOvtg2o-bfmL_JesnFGbE_bgZsWT5naIKMhTPg77o5E";
             try {
                 yield (0, node_fetch_1.default)(url)
                     .then(res => {
                     // console.log(res);
                     if (res.status === 404) {
-                        throw new Error(res.statusText);
+                        return console.log(res);
                     }
                     return res.json();
                 })
                     .then((response) => __awaiter(this, void 0, void 0, function* () {
                     if (response.estado === 404) {
-                        throw new Error(response.descripcion);
+                        return console.error(response.descripcion);
                     }
                     // Obtener el enlace al fichero
                     const fileUrl = response.datos;
                     if (!fileUrl) {
-                        throw new Error('No se encontró el enlace al fichero');
+                        return console.error('No se encontró el enlace al fichero');
                     }
                     // Descargar el fichero
                     const fileResponse = yield (0, node_fetch_1.default)(fileUrl);
                     if (!fileResponse.ok) {
-                        throw new Error(`Error al descargar el fichero! status: ${fileResponse.status}`);
+                        return console.error(`Error al descargar el fichero! status: ${fileResponse.status}`);
                     }
                     // Leer el contenido del fichero
                     //console.log(fileResponse);
@@ -56,7 +58,7 @@ class AemetController {
                 }));
             }
             catch (err) {
-                console.log(err);
+                console.error(err);
             }
         });
     }
