@@ -7,7 +7,7 @@ class AemetController {
     public index(req: Request, res: Response) {
         res.json({ text: 'Aemet Controller' });
     }
-
+ 
     public async getData(idema: String): Promise<void> {
         // const { idema } = req.params;
         const formattedDate = aemetController.currentFecha();
