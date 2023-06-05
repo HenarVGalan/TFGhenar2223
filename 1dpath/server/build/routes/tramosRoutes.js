@@ -18,14 +18,20 @@ class TramosRoutes {
         this.router.get('/coordenadasCentroTramo', tramosController_1.default.getCoordenadasCentroTramo);
         this.router.get('/coordenadasInicioTramo', tramosController_1.default.getCoordenadasInicioTramo);
         this.router.get('/coordenadasFinTramo', tramosController_1.default.getCoordenadasFinTramo);
-        this.router.get('/interseccion', tramosController_1.default.getinteseccionTramosPoligono);
+        this.router.get('/interseccionPoligonos', tramosController_1.default.getinteseccionTramosPoligono);
         //getTramos
         this.router.get('/:x1/:y1/:x2/:y2', tramosController_1.default.getTramos);
         this.router.get('/tramosObras', tramosController_1.default.getTramosObras);
         this.router.get('/tramosFerrocarril', tramosController_1.default.getTramosFerrocarril);
         this.router.get('/setConsecutivos', tramosController_1.default.setConsecutivos);
+        this.router.get('/consecutivos1', tramosController_1.default.consecutivos1);
+        this.router.get('/consecutivos2', tramosController_1.default.consecutivos2);
+        this.router.get('/consecutivos3', tramosController_1.default.consecutivos3);
+        this.router.get('/consecutivos4', tramosController_1.default.consecutivos4);
+        this.router.get('/interseccion', tramosController_1.default.interseccionTramos);
         this.router.get('/:id', tramosController_1.default.getOne);
         this.router.get('/:idtramo/setPeso', tramosController_1.default.setPeso);
+        //interseccion
         // this.router.post('/', tramosController.create);
         // this.router.put('/:id', tramosController.update);
         // this.router.delete('/:id', tramosController.delete);

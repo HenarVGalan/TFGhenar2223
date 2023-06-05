@@ -19,11 +19,13 @@ class PuntoRoutes {
         //getGeoJsonInicioTramo
         this.router.get('/getInicioTramo', puntoController.getInicioTramo);
         this.router.get('/getFinTramo', puntoController.getFinTramo);
+        //igualGeom
+        this.router.get('/getIguales', puntoController.touchGeom);
         //getEstaciones
         this.router.get('/getEstaciones', puntoController.getEstaciones);
-        this.router.get('/interpolar/:idpunto',puntoController.interpolar);
-       //setvalorEstaciones
-       this.router.get('/:idpunto/setvalorEstaciones',puntoController.setvalorEstaciones);
+        this.router.get('/interpolar/:idpunto', puntoController.interpolar);
+        //setvalorEstaciones
+        this.router.get('/:idpunto/setvalorEstaciones', puntoController.setvalorEstaciones);
         //  this.router.get('/:id', puntoController.getOne);
         // this.router.post('/', puntoController.create);
         // this.router.put('/:id', puntoController.update);
