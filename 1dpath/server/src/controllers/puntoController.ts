@@ -135,13 +135,13 @@ class PuntoController {
         await db.query("UPDATE public.punto set peso_prec=" + peso_prec + " WHERE punto.id=" + idpunto);
     }
 
-    public async touchGeom(req: Request, res: Response): Promise<any> {
-        const puntos = await db.query("SELECT geom, id FROM public.punto ");
+    public async equalGeom(req: Request, res: Response): Promise<any> {
+        const puntos = await db.query("SELECT geom, id,ogc_fid_tramo FROM public.punto ");
         let iguales;
         (puntos).forEach(async (punto: any) => {
             //console.log("Hola soy punto: " + punto.geom);
            // console.log("Select id , geom FROM public.punto punto2 WHERE ST_Touches('" + punto.geom + "', punto2.geom) ");
-            iguales = await db.query("Select id , geom FROM public.punto punto2 WHERE ST_Touches('" + punto.geom + "', punto2.geom) ");
+            iguales = await db.query("Select id, geom FROM public.punto punto2 WHERE ST_Equals('" + punto.geom + "', punto2.geom) and " + punto.ogc_fid_tramo + "<> punto2.ogc_fid_tramo ");
             // iguales += punto.id;
             console.log(iguales);
         });

@@ -20,7 +20,7 @@ class PuntoRoutes {
         this.router.get('/getInicioTramo', puntoController.getInicioTramo);
         this.router.get('/getFinTramo', puntoController.getFinTramo);
         //igualGeom
-        this.router.get('/getIguales', puntoController.touchGeom);
+        this.router.get('/getIguales', puntoController.equalGeom);
         //getEstaciones
         this.router.get('/getEstaciones', puntoController.getEstaciones);
         this.router.get('/interpolar/:idpunto', puntoController.interpolar);

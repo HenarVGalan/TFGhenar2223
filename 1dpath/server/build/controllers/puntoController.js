@@ -149,14 +149,14 @@ class PuntoController {
             yield database_1.default.query("UPDATE public.punto set peso_prec=" + peso_prec + " WHERE punto.id=" + idpunto);
         });
     }
-    touchGeom(req, res) {
+    equalGeom(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const puntos = yield database_1.default.query("SELECT geom, id FROM public.punto ");
+            const puntos = yield database_1.default.query("SELECT geom, id,ogc_fid_tramo FROM public.punto ");
             let iguales;
             (puntos).forEach((punto) => __awaiter(this, void 0, void 0, function* () {
                 //console.log("Hola soy punto: " + punto.geom);
                 // console.log("Select id , geom FROM public.punto punto2 WHERE ST_Touches('" + punto.geom + "', punto2.geom) ");
-                iguales = yield database_1.default.query("Select id , geom FROM public.punto punto2 WHERE ST_Touches('" + punto.geom + "', punto2.geom) ");
+                iguales = yield database_1.default.query("Select id, geom FROM public.punto punto2 WHERE ST_Equals('" + punto.geom + "', punto2.geom) and " + punto.ogc_fid_tramo + "<> punto2.ogc_fid_tramo ");
                 // iguales += punto.id;
                 console.log(iguales);
             }));
