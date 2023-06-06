@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import db from '../database';
+import puntoController from './puntoController';
 
 class TramosController {
 
@@ -110,6 +111,7 @@ class TramosController {
     public async getTramos(req: Request, res: Response): Promise<any> {
         const { x1, y1, x2, y2 } = req.params;
         const tramos = await db.query('SELECT ogc_fid FROM public.network01_4326 WHERE ST_Intersects(ST_SetSRID((ST_MakeEnvelope(' + x1 + ', ' + y1 + ', ' + x2 + ', ' + y2 + ', 4326)), 4326),geom)');
+
         res.json(tramos);
     }
 
@@ -129,8 +131,14 @@ class TramosController {
         let peso_prec = 0;
         //1 Se obtienen los puntos de un tramo
         const puntos = await db.query("SELECT * FROM public.punto WHERE punto.ogc_fid_tramo=" + idtramo);
+
         //2 sumatorio de los pesos 
         puntos.forEach(async (punto: any) => {
+            console.log("idpunto: " + punto.id)
+
+            puntoController.setvalorEstaciones(punto.id);
+
+
             peso_prec += punto.peso_prec;
         });
         //3 update 
@@ -169,29 +177,38 @@ class TramosController {
     }
 
     //Comparamos : pfinal de tramo coincide con el pinicio de otro tramo
-    public async consecutivos1(req: Request, res: Response): Promise<any> {
+    public async consecutivos1(res: Response): Promise<any> {
         //1 Obtener punto final de ese tramo 
-        const tramospfinal = await db.query("SELECT pfinal, ogc_fid as idtramofinal FROM public.network01_4326");
+        const tramospfinal = await db.query("SELECT pinicio, pfinal, ogc_fid as idtramofinal FROM public.network01_4326");
 
         tramospfinal.forEach(async (tramopfinal: any) => {
             // console.log(tramospinicio.pinicio[0].geom);
             // console.log("SELECT pfinal, ogc_fid  FROM public.network01_4326 network01 WHERE  ST_Equals('" + tramopfinal.pfinal[0].geom + "', (network01.pinicio-> 0 ->> 'geom')::geometry) AND " + tramopfinal.idtramofinal + "<> network01.ogc_fid ");
-            const consecutivos = await db.query("SELECT  ogc_fid as ogc_fid_tramo_consecutivo FROM public.network01_4326 network01  WHERE  (ST_Equals('" + tramopfinal.pfinal[0].geom + "', (network01.pinicio-> 0 ->> 'geom')::geometry) or ST_Equals('" + tramopfinal.pfinal[0].geom + "', (network01.pfinal-> 0 ->> 'geom')::geometry)) AND " + tramopfinal.idtramofinal + " <> network01.ogc_fid ");
+            const consecutivos = await db.query("SELECT  ogc_fid as ogc_fid_tramo_consecutivo FROM public.network01_4326 network01  WHERE ( ST_Equals('" + tramopfinal.pinicio[0].geom + "', (network01.pfinal-> 0 ->> 'geom')::geometry) OR ST_Equals('" + tramopfinal.pfinal[0].geom + "', (network01.pinicio-> 0 ->> 'geom')::geometry) OR ST_Equals('" + tramopfinal.pfinal[0].geom + "', (network01.pfinal-> 0 ->> 'geom')::geometry) or ST_Equals('" + tramopfinal.pinicio[0].geom + "', (network01.pinicio-> 0 ->> 'geom')::geometry) ) AND " + tramopfinal.idtramofinal + " <> network01.ogc_fid ");
             // console.log(consecutivos);
+            const consecutivospinicio = await db.query("SELECT  ogc_fid as ogc_fid_tramo_consecutivo FROM public.network01_4326 network01  WHERE  (ST_Equals('" + tramopfinal.pinicio[0].geom + "', (network01.pfinal-> 0 ->> 'geom')::geometry) or ST_Equals('" + tramopfinal.pinicio[0].geom + "', (network01.pinicio-> 0 ->> 'geom')::geometry) ) AND " + tramopfinal.idtramofinal + " <> network01.ogc_fid ");
+            const consecutivospfinal = await db.query("SELECT  ogc_fid as ogc_fid_tramo_consecutivo FROM public.network01_4326 network01  WHERE  (ST_Equals('" + tramopfinal.pfinal[0].geom + "', (network01.pinicio-> 0 ->> 'geom')::geometry) or ST_Equals('" + tramopfinal.pfinal[0].geom + "', (network01.pfinal-> 0 ->> 'geom')::geometry)) AND " + tramopfinal.idtramofinal + " <> network01.ogc_fid ");
 
-         
             if (consecutivos.length != 0) {
                 const valoresConsecutivos = consecutivos.map((obj: { ogc_fid_tramo_consecutivo: any; }) => obj.ogc_fid_tramo_consecutivo);
-                //console.log("\n" + valoresConsecutivos);
+                // console.log("\n tramopfinal id: " + tramopfinal.idtramofinal + " valores consecutivos " + valoresConsecutivos + " \n valores consecutivospinicio " + valoresConsecutivospinicio + "\n valores consecutivospfinal " + valoresConsecutivospfinal  );
                 // console.log("UPDATE public.network01_4326 set tramos_consecutivos= '{" + valoresConsecutivos + "}' WHERE ogc_fid=" + tramopfinal.idtramofinal);
                 await db.query("UPDATE public.network01_4326 set tramos_consecutivos= '{" + valoresConsecutivos + "}' WHERE ogc_fid=" + tramopfinal.idtramofinal);
-                //tramopfinal.pfinal[0].geom
-                console.log("UPDATE public.punto set ogc_fid_tramo_consecutivos= '{" + valoresConsecutivos + "}' WHERE geom= '" + tramopfinal.pfinal[0].geom + "' ");
-                await db.query("UPDATE public.punto set ogc_fid_tramo_consecutivos= '{" + valoresConsecutivos + "}' WHERE geom= '" + tramopfinal.pfinal[0].geom + "' ");
+
+            }
+
+            if (consecutivospinicio.length != 0) {
+                const valoresConsecutivospinicio = consecutivospinicio.map((obj: { ogc_fid_tramo_consecutivo: any; }) => obj.ogc_fid_tramo_consecutivo);
+                await db.query("UPDATE public.punto set ogc_fid_tramo_consecutivos= '{" + valoresConsecutivospinicio + "}' WHERE geom= '" + tramopfinal.pinicio[0].geom + "' and ogc_fid_tramo =" + tramopfinal.idtramofinal);
+            }
+
+            if (consecutivospfinal.length != 0) {
+                const valoresConsecutivospfinal = consecutivospfinal.map((obj: { ogc_fid_tramo_consecutivo: any; }) => obj.ogc_fid_tramo_consecutivo);
+                await db.query("UPDATE public.punto set ogc_fid_tramo_consecutivos= '{" + valoresConsecutivospfinal + "}' WHERE geom= '" + tramopfinal.pfinal[0].geom + "' and ogc_fid_tramo =" + tramopfinal.idtramofinal);
             }
         });
-        const consecutivos = await db.query("SELECT ogc_fid_tramo,ogc_fid_tramo_consecutivos FROM public.punto where ogc_fid_tramo_consecutivos is not null ORDER BY ogc_fid_tramo ASC ");
-        res.json(consecutivos);
+        // const consecutivos = await db.query("SELECT ogc_fid_tramo,ogc_fid_tramo_consecutivos FROM public.punto where ogc_fid_tramo_consecutivos is not null ORDER BY ogc_fid_tramo ASC ");
+        // res.json(consecutivos);
     }
 
     ////pfinal de tramo muy cerca  con el pinicio de otro tramo //valorar para futuro que quizas hay trasbordo, cercanías 

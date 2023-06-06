@@ -79,16 +79,20 @@ class PuntoController {
 
     //funcion: actualizar punto.estacionesnear.valor 
     // Para ese punto obtener estacionesnear, y para cada una getData, despues con lo que devuelva habrá que insertar valor
-    public async setvalorEstaciones(req: Request, res: Response): Promise<any> {
-        const { idpunto } = req.params;
-        const punto = await db.query("SELECT estacionesnear FROM public.punto WHERE punto.id=" + idpunto);
+    public async setvalorEstaciones(idPunto: number): Promise<any> {
+
+        console.log("setvalorestaciones: "+idPunto);
+        const punto = await db.query("SELECT estacionesnear,geom,id FROM public.punto WHERE punto.id=" + idPunto);
         // res.json(punto[0].estacionesnear);
+        console.log("puntos" + punto);
         (punto[0].estacionesnear).forEach(async (estacion: any) => {
             //1 llamar a funcion de aemet hay que pasarle el idema, getData(idema)
             // const prec_estacion = aemetController.getData(estacion.idema);
             //const prec_estacion = 2;
             try {
-                estacion.prec = aemetController.getData(estacion.idema);
+                // estacion.prec = aemetController.getData(estacion.idema);
+                estacion.prec = puntoController.generarNumeroAleatorio();
+                console.log("estacion_prec: " + estacion.prec);
             } catch (err) {
                 console.error(err);
             }
@@ -101,19 +105,20 @@ class PuntoController {
         // console.log(punto[0].estacionesnear);
         //  console.log(JSON.stringify(punto[0].estacionesnear));
         //2  insertar valor en la estacion cerca correspondiente del punto      
-        await db.query("UPDATE public.punto set estacionesnear=' " + JSON.stringify(punto[0].estacionesnear) + "' WHERE id=" + idpunto);
-        res.json(punto[0].estacionesnear);
+        await db.query("UPDATE public.punto set estacionesnear=' " + JSON.stringify(punto[0].estacionesnear) + "' WHERE geom='" + punto[0].geom + "'");
+        await puntoController.interpolar(idPunto);
+        // res.json(punto[0].estacionesnear);
 
     }
     //Con el punto que te pasan, calculamos su peso, a partir de valor de las estaciones cercanas
     //este valor pues será precipitacion es esa estación por ejemplo
-    public async interpolar(req: Request): Promise<any> {
-        const { idpunto } = req.params;
+    public async interpolar(idPunto: number): Promise<any> {
+       
         let sumDistinv = 0;
         //estacion.valor ?
         let peso_prec = 0; //esto habría que factorizar, porque puede ser precipitacion o el peso de temperatura, etc
         const prec = 1;//esto es un ejemplo, punto.estacionesnear.peso (precitipitacion)
-        const punto = await db.query("SELECT estacionesnear FROM public.punto WHERE punto.id=" + idpunto);
+        const punto = await db.query("SELECT estacionesnear,geom FROM public.punto WHERE punto.id=" + idPunto);
         console.log(punto[0].estacionesnear);
 
         (punto[0].estacionesnear).forEach(async (estacion: any) => {
@@ -132,7 +137,7 @@ class PuntoController {
             console.log("w: " + ((inv_dd / sumDistinv)));
         });
         console.log("zj " + peso_prec);
-        await db.query("UPDATE public.punto set peso_prec=" + peso_prec + " WHERE punto.id=" + idpunto);
+        await db.query("UPDATE public.punto set peso_prec=" + peso_prec + " WHERE geom='" + punto[0].geom + "'");
     }
 
     public async equalGeom(req: Request, res: Response): Promise<any> {
@@ -140,13 +145,25 @@ class PuntoController {
         let iguales;
         (puntos).forEach(async (punto: any) => {
             //console.log("Hola soy punto: " + punto.geom);
-           // console.log("Select id , geom FROM public.punto punto2 WHERE ST_Touches('" + punto.geom + "', punto2.geom) ");
+            // console.log("Select id , geom FROM public.punto punto2 WHERE ST_Touches('" + punto.geom + "', punto2.geom) ");
             iguales = await db.query("Select id, geom FROM public.punto punto2 WHERE ST_Equals('" + punto.geom + "', punto2.geom) and " + punto.ogc_fid_tramo + "<> punto2.ogc_fid_tramo ");
             // iguales += punto.id;
             console.log(iguales);
         });
         // res.json(iguales);
     }
+    public generarNumeroAleatorio(): number {
+        const min = 0; // Valor mínimo (incluido)
+        const max = 50; // Valor máximo (incluido)
+
+        const numeroAleatorio = Math.random() * (max - min) + min;
+        const numeroAleatorioRedondeado = parseFloat(numeroAleatorio.toFixed(2));
+
+        return numeroAleatorioRedondeado;
+    }
+
+
+
 
 }
 

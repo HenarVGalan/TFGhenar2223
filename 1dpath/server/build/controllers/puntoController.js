@@ -13,7 +13,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const database_1 = __importDefault(require("../database"));
-const aemetController_1 = __importDefault(require("./aemetController"));
 class PuntoController {
     index(req, res) {
         res.json({ text: 'puntoController' });
@@ -92,17 +91,20 @@ class PuntoController {
     //TO DO
     //funcion: actualizar punto.estacionesnear.valor 
     // Para ese punto obtener estacionesnear, y para cada una getData, despues con lo que devuelva habrá que insertar valor
-    setvalorEstaciones(req, res) {
+    setvalorEstaciones(idPunto) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { idpunto } = req.params;
-            const punto = yield database_1.default.query("SELECT estacionesnear FROM public.punto WHERE punto.id=" + idpunto);
+            console.log("setvalorestaciones: " + idPunto);
+            const punto = yield database_1.default.query("SELECT estacionesnear,geom,id FROM public.punto WHERE punto.id=" + idPunto);
             // res.json(punto[0].estacionesnear);
+            console.log("puntos" + punto);
             (punto[0].estacionesnear).forEach((estacion) => __awaiter(this, void 0, void 0, function* () {
                 //1 llamar a funcion de aemet hay que pasarle el idema, getData(idema)
                 // const prec_estacion = aemetController.getData(estacion.idema);
                 //const prec_estacion = 2;
                 try {
-                    estacion.prec = aemetController_1.default.getData(estacion.idema);
+                    // estacion.prec = aemetController.getData(estacion.idema);
+                    estacion.prec = puntoController.generarNumeroAleatorio();
+                    console.log("estacion_prec: " + estacion.prec);
                 }
                 catch (err) {
                     console.error(err);
@@ -115,20 +117,20 @@ class PuntoController {
             // console.log(punto[0].estacionesnear);
             //  console.log(JSON.stringify(punto[0].estacionesnear));
             //2  insertar valor en la estacion cerca correspondiente del punto      
-            yield database_1.default.query("UPDATE public.punto set estacionesnear=' " + JSON.stringify(punto[0].estacionesnear) + "' WHERE id=" + idpunto);
-            res.json(punto[0].estacionesnear);
+            yield database_1.default.query("UPDATE public.punto set estacionesnear=' " + JSON.stringify(punto[0].estacionesnear) + "' WHERE geom='" + punto[0].geom + "'");
+            yield puntoController.interpolar(idPunto);
+            // res.json(punto[0].estacionesnear);
         });
     }
     //Con el punto que te pasan, calculamos su peso, a partir de valor de las estaciones cercanas
     //este valor pues será precipitacion es esa estación por ejemplo
-    interpolar(req) {
+    interpolar(idPunto) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { idpunto } = req.params;
             let sumDistinv = 0;
             //estacion.valor ?
             let peso_prec = 0; //esto habría que factorizar, porque puede ser precipitacion o el peso de temperatura, etc
             const prec = 1; //esto es un ejemplo, punto.estacionesnear.peso (precitipitacion)
-            const punto = yield database_1.default.query("SELECT estacionesnear FROM public.punto WHERE punto.id=" + idpunto);
+            const punto = yield database_1.default.query("SELECT estacionesnear,geom FROM public.punto WHERE punto.id=" + idPunto);
             console.log(punto[0].estacionesnear);
             (punto[0].estacionesnear).forEach((estacion) => __awaiter(this, void 0, void 0, function* () {
                 console.log(estacion.distancia);
@@ -146,7 +148,7 @@ class PuntoController {
                 console.log("w: " + ((inv_dd / sumDistinv)));
             }));
             console.log("zj " + peso_prec);
-            yield database_1.default.query("UPDATE public.punto set peso_prec=" + peso_prec + " WHERE punto.id=" + idpunto);
+            yield database_1.default.query("UPDATE public.punto set peso_prec=" + peso_prec + " WHERE geom='" + punto[0].geom + "'");
         });
     }
     equalGeom(req, res) {
@@ -162,6 +164,13 @@ class PuntoController {
             }));
             // res.json(iguales);
         });
+    }
+    generarNumeroAleatorio() {
+        const min = 0; // Valor mínimo (incluido)
+        const max = 50; // Valor máximo (incluido)
+        const numeroAleatorio = Math.random() * (max - min) + min;
+        const numeroAleatorioRedondeado = parseFloat(numeroAleatorio.toFixed(2));
+        return numeroAleatorioRedondeado;
     }
 }
 const puntoController = new PuntoController();
