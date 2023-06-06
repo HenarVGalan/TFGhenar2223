@@ -172,6 +172,25 @@ class PuntoController {
         const numeroAleatorioRedondeado = parseFloat(numeroAleatorio.toFixed(2));
         return numeroAleatorioRedondeado;
     }
+    consecutivos1(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const tramospfinal = yield database_1.default.query("SELECT pinicio, pfinal, ogc_fid as idtramofinal FROM public.network01_4326");
+            tramospfinal.forEach((tramopfinal) => __awaiter(this, void 0, void 0, function* () {
+                // console.log(tramospinicio.pinicio[0].geom);
+                // console.log("SELECT pfinal, ogc_fid  FROM public.network01_4326 network01 WHERE  ST_Equals('" + tramopfinal.pfinal[0].geom + "', (network01.pinicio-> 0 ->> 'geom')::geometry) AND " + tramopfinal.idtramofinal + "<> network01.ogc_fid ");
+                const consecutivospinicio = yield database_1.default.query("SELECT  ogc_fid as ogc_fid_tramo_consecutivo FROM public.network01_4326 network01  WHERE  (ST_Equals('" + tramopfinal.pinicio[0].geom + "', (network01.pfinal-> 0 ->> 'geom')::geometry) or ST_Equals('" + tramopfinal.pinicio[0].geom + "', (network01.pinicio-> 0 ->> 'geom')::geometry) ) AND " + tramopfinal.idtramofinal + " <> network01.ogc_fid ");
+                const consecutivospfinal = yield database_1.default.query("SELECT  ogc_fid as ogc_fid_tramo_consecutivo FROM public.network01_4326 network01  WHERE  (ST_Equals('" + tramopfinal.pfinal[0].geom + "', (network01.pinicio-> 0 ->> 'geom')::geometry) or ST_Equals('" + tramopfinal.pfinal[0].geom + "', (network01.pfinal-> 0 ->> 'geom')::geometry)) AND " + tramopfinal.idtramofinal + " <> network01.ogc_fid ");
+                if (consecutivospinicio.length != 0) {
+                    const valoresConsecutivospinicio = consecutivospinicio.map((obj) => obj.ogc_fid_tramo_consecutivo);
+                    yield database_1.default.query("UPDATE public.punto set ogc_fid_tramo_consecutivos= '{" + valoresConsecutivospinicio + "}' WHERE geom= '" + tramopfinal.pinicio[0].geom + "' and ogc_fid_tramo =" + tramopfinal.idtramofinal);
+                }
+                if (consecutivospfinal.length != 0) {
+                    const valoresConsecutivospfinal = consecutivospfinal.map((obj) => obj.ogc_fid_tramo_consecutivo);
+                    yield database_1.default.query("UPDATE public.punto set ogc_fid_tramo_consecutivos= '{" + valoresConsecutivospfinal + "}' WHERE geom= '" + tramopfinal.pfinal[0].geom + "' and ogc_fid_tramo =" + tramopfinal.idtramofinal);
+                }
+            }));
+        });
+    }
 }
 const puntoController = new PuntoController();
 exports.default = puntoController;

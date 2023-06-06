@@ -81,7 +81,7 @@ class PuntoController {
     // Para ese punto obtener estacionesnear, y para cada una getData, despues con lo que devuelva habrá que insertar valor
     public async setvalorEstaciones(idPunto: number): Promise<any> {
 
-        console.log("setvalorestaciones: "+idPunto);
+        console.log("setvalorestaciones: " + idPunto);
         const punto = await db.query("SELECT estacionesnear,geom,id FROM public.punto WHERE punto.id=" + idPunto);
         // res.json(punto[0].estacionesnear);
         console.log("puntos" + punto);
@@ -113,7 +113,7 @@ class PuntoController {
     //Con el punto que te pasan, calculamos su peso, a partir de valor de las estaciones cercanas
     //este valor pues será precipitacion es esa estación por ejemplo
     public async interpolar(idPunto: number): Promise<any> {
-       
+
         let sumDistinv = 0;
         //estacion.valor ?
         let peso_prec = 0; //esto habría que factorizar, porque puede ser precipitacion o el peso de temperatura, etc
@@ -161,6 +161,28 @@ class PuntoController {
 
         return numeroAleatorioRedondeado;
     }
+    public async consecutivos1(req: Request, res: Response): Promise<any> {
+        const tramospfinal = await db.query("SELECT pinicio, pfinal, ogc_fid as idtramofinal FROM public.network01_4326");
+
+        tramospfinal.forEach(async (tramopfinal: any) => {
+            // console.log(tramospinicio.pinicio[0].geom);
+            // console.log("SELECT pfinal, ogc_fid  FROM public.network01_4326 network01 WHERE  ST_Equals('" + tramopfinal.pfinal[0].geom + "', (network01.pinicio-> 0 ->> 'geom')::geometry) AND " + tramopfinal.idtramofinal + "<> network01.ogc_fid ");
+            const consecutivospinicio = await db.query("SELECT  ogc_fid as ogc_fid_tramo_consecutivo FROM public.network01_4326 network01  WHERE  (ST_Equals('" + tramopfinal.pinicio[0].geom + "', (network01.pfinal-> 0 ->> 'geom')::geometry) or ST_Equals('" + tramopfinal.pinicio[0].geom + "', (network01.pinicio-> 0 ->> 'geom')::geometry) ) AND " + tramopfinal.idtramofinal + " <> network01.ogc_fid ");
+            const consecutivospfinal = await db.query("SELECT  ogc_fid as ogc_fid_tramo_consecutivo FROM public.network01_4326 network01  WHERE  (ST_Equals('" + tramopfinal.pfinal[0].geom + "', (network01.pinicio-> 0 ->> 'geom')::geometry) or ST_Equals('" + tramopfinal.pfinal[0].geom + "', (network01.pfinal-> 0 ->> 'geom')::geometry)) AND " + tramopfinal.idtramofinal + " <> network01.ogc_fid ");
+
+
+            if (consecutivospinicio.length != 0) {
+                const valoresConsecutivospinicio = consecutivospinicio.map((obj: { ogc_fid_tramo_consecutivo: any; }) => obj.ogc_fid_tramo_consecutivo);
+                await db.query("UPDATE public.punto set ogc_fid_tramo_consecutivos= '{" + valoresConsecutivospinicio + "}' WHERE geom= '" + tramopfinal.pinicio[0].geom + "' and ogc_fid_tramo =" + tramopfinal.idtramofinal);
+            }
+
+            if (consecutivospfinal.length != 0) {
+                const valoresConsecutivospfinal = consecutivospfinal.map((obj: { ogc_fid_tramo_consecutivo: any; }) => obj.ogc_fid_tramo_consecutivo);
+                await db.query("UPDATE public.punto set ogc_fid_tramo_consecutivos= '{" + valoresConsecutivospfinal + "}' WHERE geom= '" + tramopfinal.pfinal[0].geom + "' and ogc_fid_tramo =" + tramopfinal.idtramofinal);
+            }
+        });
+    }
+
 
 
 
