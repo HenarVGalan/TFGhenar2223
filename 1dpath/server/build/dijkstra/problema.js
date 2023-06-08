@@ -1,55 +1,5 @@
 "use strict";
-function dijkstra(graph, start, end) {
-    const distances = {};
-    const visited = {};
-    const previous = {};
-    const queue = [];
-    for (let vertex in graph) {
-        if (vertex === start) {
-            distances[vertex] = 0;
-        }
-        else {
-            distances[vertex] = Infinity;
-        }
-        previous[vertex] = null;
-        queue.push(vertex);
-    }
-    while (queue.length > 0) {
-        queue.sort((a, b) => distances[a] - distances[b]);
-        const current = queue.shift();
-        if (current === end) {
-            break;
-        }
-        if (!current || distances[current] === Infinity) {
-            continue;
-        }
-        visited[current] = true;
-        for (let neighbor in graph[current]) {
-            const weight = graph[current][neighbor];
-            const totalWeight = distances[current] + weight;
-            if (totalWeight < distances[neighbor]) {
-                distances[neighbor] = totalWeight;
-                previous[neighbor] = current;
-            }
-        }
-    }
-    const path = [];
-    let current = end;
-    while (current !== null) {
-        path.unshift(current);
-        current = previous[current];
-    }
-    console.log(path);
-    return path.map((vertex) => distances[vertex]);
-}
-// Ejemplo de uso
-const graph = {
-    'A': { 'B': 3, 'C': 2 },
-    'B': { 'A': 3, 'C': 1, 'D': 5 },
-    'C': { 'A': 2, 'B': 1, 'D': 2 },
-    'D': { 'B': 5, 'C': 2 },
-};
-const ce_ab_mur = {
+const ce_ab_murA = {
     '50067': { '50678': 10 },
     '50678': { '50067': 10, '50256': 0 },
     '50294': { '50652': 5 },
@@ -110,8 +60,3 @@ const ce_ab_mur = {
     '50606': { '50125': 0, '50684': 0 },
     '50625': { '49956': 0 },
 };
-const startVertex = '50067';
-const endVertex = '50758';
-const shortestPath = dijkstra(ce_ab_mur, startVertex, endVertex);
-console.log(`El camino más corto desde ${startVertex} hasta ${endVertex} es:`);
-console.log(shortestPath);
