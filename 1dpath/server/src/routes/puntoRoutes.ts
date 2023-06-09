@@ -19,6 +19,7 @@ class PuntoRoutes {
         //getGeoJsonInicioTramo
         this.router.get('/getInicioTramo', puntoController.getInicioTramo);
         this.router.get('/getFinTramo', puntoController.getFinTramo);
+        this.router.get('/getpiniciopfin', puntoController.getpiniciopfin);        
         //igualGeom
         this.router.get('/getIguales', puntoController.equalGeom);
         //getEstaciones

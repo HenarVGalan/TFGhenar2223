@@ -27,4 +27,9 @@ export class PuntoService {
         return this.http.get(`${this.API_URI}/getFinTramo`);
      
       }
+      //getpiniciopfin
+      getpIniciopFinal(){
+        return this.http.get(`${this.API_URI}/getpiniciopfin`);
+     
+      }
 }
