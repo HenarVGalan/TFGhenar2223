@@ -62,7 +62,7 @@ const graph: Graph = {
     'C': { 'A': 2, 'B': 1, 'D': 2 },
     'D': { 'B': 5, 'C': 2 },
 };
-const ce_ab_mur: Graph = { 
+const ce_ab_murB: Graph = { 
     '50067': { '50678': 10 },
     '50678': { '50067': 10, '50256': 0 },
     '50294': { '50652': 5 },
@@ -76,10 +76,11 @@ const ce_ab_mur: Graph = {
     '291C1': { '291C2': 5 },
     '291C2': { '291D1': 0, '50147': 0 },
     '291D1': { '50625': 3 },
-
+    
     '50358': { '50561': 1 },
     '50561': { '50546': 0 },
-
+    				
+    '50220': { '50840': 10 },
     '50840': { '50147': 0 },
     '50147': { '50769': 2 },
     '50546': { '50568': 6 },
@@ -88,6 +89,7 @@ const ce_ab_mur: Graph = {
     '50244': { '290A2': 2 },
     '290A2': { '50447': 0, '290B1': 0 },
     '50447': { '50758': 4 },
+    '50758': { '50758': 0 },//fin
     '290B1': { '290B2': 1 },
     '290B2': { '290C1': 0, '250A1': 0 },
 
@@ -133,7 +135,7 @@ const ce_ab_mur: Graph = {
 const startVertex = '50067';
 const endVertex = '50758'; 
 
-const shortestPath = dijkstra(ce_ab_mur, startVertex, endVertex);
+const shortestPath = dijkstra(ce_ab_murB, startVertex, endVertex);
 
 console.log(`El camino más corto desde ${startVertex} hasta ${endVertex} es:`);
 console.log(shortestPath);
