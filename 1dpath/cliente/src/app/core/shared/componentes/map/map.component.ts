@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Map, tileLayer } from 'leaflet';
 import * as L from 'leaflet';
 import { HttpClient } from '@angular/common/http';
-
 import { TramoService } from 'src/app/core/services/tramo/tramo.service';
 
 @Component({

@@ -24,7 +24,8 @@ class TramosRoutes {
         this.router.get('/:x1/:y1/:x2/:y2', tramosController.getTramos);
         this.router.get('/tramosObras', tramosController.getTramosObras);
         this.router.get('/tramosFerrocarril', tramosController.getTramosFerrocarril);
-        
+        this.router.get('/tramosRuta', tramosController.getTramosRuta);
+
         this.router.get('/setConsecutivos', tramosController.setConsecutivos);
         this.router.get('/consecutivos1', tramosController.consecutivos1);
         this.router.get('/consecutivos2', tramosController.consecutivos2);
@@ -33,7 +34,7 @@ class TramosRoutes {
 
         this.router.get('/interseccion', tramosController.interseccionTramos);
         this.router.get('/:id', tramosController.getOne);
-        this.router.get('/:idtramo/setPeso', tramosController.setPeso);
+        this.router.get('/:idtramo/setPeso', tramosController.setPeso); 
         //interseccion
 
 

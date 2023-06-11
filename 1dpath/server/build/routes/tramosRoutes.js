@@ -23,6 +23,7 @@ class TramosRoutes {
         this.router.get('/:x1/:y1/:x2/:y2', tramosController_1.default.getTramos);
         this.router.get('/tramosObras', tramosController_1.default.getTramosObras);
         this.router.get('/tramosFerrocarril', tramosController_1.default.getTramosFerrocarril);
+        this.router.get('/tramosRuta', tramosController_1.default.getTramosRuta);
         this.router.get('/setConsecutivos', tramosController_1.default.setConsecutivos);
         this.router.get('/consecutivos1', tramosController_1.default.consecutivos1);
         this.router.get('/consecutivos2', tramosController_1.default.consecutivos2);

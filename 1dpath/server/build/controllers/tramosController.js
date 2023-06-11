@@ -141,6 +141,26 @@ class TramosController {
             res.json(tramosferrocarril);
         });
     }
+    getTramosRuta(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // const puntosRuta = [
+            //     '50067', '50678', '50256',
+            //     '50590', '291A2', '291B1',
+            //     '291B2', '50358', '50561',
+            //     '50546', '50568', '50244',
+            //     '290A2', '50447', '50758'
+            // ];
+            // puntosRuta.forEach(async(punto_sol: any) => {
+            //     const geompuntos = await db.query("Select geom From public.punto WHERE id= " + punto_sol);
+            //     geompuntos.forEach(async (punto: any) => {
+            const tramos = yield database_1.default.query("SELECT st_asgeojson(geom) FROM public.network01_4326 WHERE ogc_fid=285 OR ogc_fid=285 OR ogc_fid=291 OR ogc_fid=288 OR ogc_fid=289 OR ogc_fid=29 OR ogc_fid=21");
+            //console.log(tramos);
+            //     });
+            // });
+            // const tramosferrocarril = await db.query("Select st_asgeojson(geom) From public.network01_4326 Where tipo = 'FERROCARRIL'");
+            res.json(tramos);
+        });
+    }
     setPeso(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { idtramo } = req.params;

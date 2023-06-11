@@ -33,6 +33,9 @@ const redIcon = new L.Icon({
   shadowSize: [41, 41]
 });
 
+import { HttpClient } from '@angular/common/http';
+import { TramoService } from 'src/app/core/services/tramo/tramo.service';
+
 @Component({
   selector: 'app-map-nodos',
   templateUrl: './map-nodos.component.html',
@@ -57,9 +60,11 @@ export class MapNodosComponent implements OnInit {
     lat: '',
     long: ''
   }
+
   puntoIniciogroupGeoJson = new L.LayerGroup();
   puntoFingroupGeoJson = new L.LayerGroup();
   puntogroupGeoJson = new L.LayerGroup();
+  tramosRutagroupGeoJson = new L.LayerGroup();
   //Variables referentes a control de inputs de las coordenadas
   puntoInicioFormGroup = this.formBuilder.group({
     //   latitudControl: [{value:'',disabled:true}, [Validators.required]],
@@ -71,7 +76,7 @@ export class MapNodosComponent implements OnInit {
     longitudControl: ['', Validators.required],
   });
 
-  constructor(private puntoService: PuntoService, private formBuilder: FormBuilder) { }
+  constructor(private http: HttpClient, private tramoService: TramoService,private puntoService: PuntoService, private formBuilder: FormBuilder) { }
 
 
   ngOnInit(): void {
@@ -149,6 +154,7 @@ export class MapNodosComponent implements OnInit {
   }
 
   public update(): void {
+    this.mapa.closePopup();
     const px = JSON.parse(this.nodoinicio.long);
     const py = JSON.parse(this.nodoinicio.lat);
     this.puntoIniciogroupGeoJson.clearLayers();
@@ -181,7 +187,7 @@ export class MapNodosComponent implements OnInit {
     //llamar servicio que llama a una api que le mandas lo que necesite
     this.mapa.closePopup();
     this.puntogroupGeoJson.clearLayers();
-   
+    this.getDataFromApi();
   }
 
   private initMap(): void {
@@ -199,7 +205,24 @@ export class MapNodosComponent implements OnInit {
 
     tiles.addTo(this.mapa);
     this.puntogroupGeoJson.addTo(this.mapa);
+    //
+    this.tramosRutagroupGeoJson.addTo(this.mapa);
+  }
+  getDataFromApi(): void {
+    this.tramoService.getTramosRuta()
+      .subscribe((tramos: any) => {
+        tramos.forEach((row: any) => {
+          let data = JSON.parse(row.st_asgeojson);
+          L.geoJSON(data, {
+            style: {
+              weight: 2.5,
+              color: '#7b1fa2'
+            }
+          }).addTo(this.tramosRutagroupGeoJson);
+        });
+       
 
+      });
   }
 
 }

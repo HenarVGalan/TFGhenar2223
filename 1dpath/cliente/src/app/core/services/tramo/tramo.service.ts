@@ -19,4 +19,7 @@ export class TramoService {
   getTramosFerrocarril() {
     return this.http.get(`${this.API_URI}/tramosFerrocarril`);
   }
+  getTramosRuta() {
+    return this.http.get(`${this.API_URI}/TramosRuta`);
+  }
 }
