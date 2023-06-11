@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 //import { HttpClient } from '@angular/common/http';
 import { Map, tileLayer } from 'leaflet';
 import * as L from 'leaflet';
@@ -24,6 +24,14 @@ const greenIcon = new L.Icon({
   popupAnchor: [1, -34],
   shadowSize: [41, 41]
 });
+const redIcon = new L.Icon({
+  iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41]
+});
 
 @Component({
   selector: 'app-map-nodos',
@@ -32,21 +40,22 @@ const greenIcon = new L.Icon({
   providers: [
     {
       provide: STEPPER_GLOBAL_OPTIONS,
-      useValue: { showError: true },
+      useValue: { displayDefaultIndicatorType: false, showError: true },
+
     },
   ],
 })
 export class MapNodosComponent implements OnInit {
-
+  @ViewChild('stepper') stepper: any;
   // Variables referente al mapa leaflet
   private mapa: any;
   nodoinicio = {
-    lat: null,
-    long: null
+    lat: '',
+    long: ''
   }
   nodofin = {
-    lat: null,
-    long: null
+    lat: '',
+    long: ''
   }
   // puntoIniciogroupGeoJson = new L.LayerGroup();
   // puntoFingroupGeoJson = new L.LayerGroup();
@@ -68,48 +77,13 @@ export class MapNodosComponent implements OnInit {
   ngOnInit(): void {
     this.initMap();
     this.makePuntoMarkers();
-    // this.makePuntoInicioMarkers();
-    // this.makePuntoFinMarkers();
   }
-  //to do refactorizar 
-  // makePuntoInicioMarkers(): void {
 
-  //   this.puntoService.getpInicio()
-  //     .subscribe((puntosInicio: any) => {
-
-  //       puntosInicio.forEach((row: any) => {
-  //         let lat = JSON.parse(row.lat);
-  //         let long = JSON.parse(row.long);
-  //         L.marker([lat, long], { icon: greenIcon })
-  //           .bindPopup('Latitud: ' + lat + '<br> Longitud ' + long)
-  //           .on("click", e => this.markerinicioOnClick(e.latlng))
-  //           .addTo(this.puntoIniciogroupGeoJson);
-
-
-  //       });
-  //     });
-  // }
-  // makePuntoFinMarkers(): void {
-
-  //   this.puntoService.getpFin()
-  //     .subscribe((puntosFin: any) => {
-
-  //       puntosFin.forEach((row: any) => {
-  //         let lat = JSON.parse(row.lat);
-  //         let long = JSON.parse(row.long);
-  //         L.marker([lat, long])
-  //           .bindPopup('Latitud: ' + lat + '<br> Longitud ' + long)
-  //           .on("click", e => this.markerfinOnClick(e.latlng))
-  //           .addTo(this.puntoFingroupGeoJson);
-
-  //       });
-  //     });
-  // }
   //getpIniciopFinal
   makePuntoMarkers(): void {
 
     this.puntoService.getpIniciopFinal()
-      .subscribe((puntos: any) => {
+      .subscribe(async (puntos: any) => {
 
         puntos.forEach((row: any) => {
 
@@ -117,8 +91,21 @@ export class MapNodosComponent implements OnInit {
           let y = JSON.parse(row.y);
 
           L.marker([y, x], { icon: purpleIcon })
-            .bindPopup('Latitud: ' + y + '<br> Longitud ' + x)
-            .on("click", e => this.markerOnClick(e.latlng))
+            .bindPopup('( ' + x + ' , ' + y + ' )')
+            .on("click", e => {
+              this.markerOnClick(e.latlng)
+            })
+            .on('popupopen', e => {
+              if (this.stepper.selectedIndex == 0) {
+                e.target.setIcon(greenIcon);
+              }
+              if (this.stepper.selectedIndex == 1) {
+                e.target.setIcon(redIcon);
+              }
+            })
+            .on('popupclose', e => {
+              e.target.setIcon(purpleIcon);
+            })
             .addTo(this.puntogroupGeoJson);
 
 
@@ -127,22 +114,31 @@ export class MapNodosComponent implements OnInit {
   }
   //to do refactorizar
   markerOnClick(latlng: any) {
-    console.log('hola' + latlng);
+    
     //controlar quien 
-    this.nodoinicio.lat = latlng.lat;
-    this.nodoinicio.long = latlng.lng;
-    this.nodofin.lat = latlng.lat;
-    this.nodofin.long = latlng.lng;
+    if (this.stepper.selectedIndex == 0) {
+      this.puntoInicioFormGroup.setValue(
+        {
+          latitudControl: latlng.lat,
+          longitudControl: latlng.lng
+        }
+      );
+    }
+    if (this.stepper.selectedIndex == 1) {
+      this.puntoFinalFormGroup.setValue(
+        {
+          latitudControl: latlng.lat,
+          longitudControl: latlng.lng
+        }
+      );
+    }
+   // console.log('hola' + this.puntoInicioFormGroup.value['latitudControl']);
+    this.nodoinicio.lat = JSON.stringify( this.puntoInicioFormGroup.value['latitudControl']);
+    this.nodoinicio.long = JSON.stringify( this.puntoInicioFormGroup.value['longitudControl']);
+    this.nodofin.lat = JSON.stringify( this.puntoFinalFormGroup.value['latitudControl']);
+    this.nodofin.long = JSON.stringify( this.puntoFinalFormGroup.value['longitudControl']);
   }
-  //to do refactorizar
-  markerinicioOnClick(latlng: any) {
-    this.nodoinicio.lat = latlng.lat;
-    this.nodoinicio.long = latlng.lng;
-  }
-  markerfinOnClick(latlng: any) {
-    this.nodofin.lat = latlng.lat;
-    this.nodofin.long = latlng.lng;
-  }
+
 
 
   private initMap(): void {
@@ -160,8 +156,7 @@ export class MapNodosComponent implements OnInit {
 
     tiles.addTo(this.mapa);
     this.puntogroupGeoJson.addTo(this.mapa);
-    // this.puntoIniciogroupGeoJson.addTo(this.mapa);
-    // this.puntoFingroupGeoJson.addTo(this.mapa);
+
 
   }
 

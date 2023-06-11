@@ -27,7 +27,7 @@ export class MapComponent implements OnInit {
           L.geoJSON(data, {
             style: {
               weight: 2,
-              color: 'purple'
+              color: '#7b1fa2'
             }
           }).addTo(this.groupGeoJson);
         });

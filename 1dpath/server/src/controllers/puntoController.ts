@@ -68,14 +68,14 @@ class PuntoController {
     }
     public async getpiniciopfin(req: Request, res: Response): Promise<any> {
 
-        const inciofinalGeoJson = await db.query("Select pinicio->0->>'x' as piniciox ,pinicio->0->>'y' as pinicioy,  pinicio->0->>'geom' as geomi, pfinal->0->>'x' as pfinalx, pfinal->0->>'y' as pfinaly, pfinal->0->>'geom' as geomf, ogc_fid  FROM public.network01_4326");
+        // const inciofinalGeoJson = await db.query("Select pinicio->0->>'x' as piniciox ,pinicio->0->>'y' as pinicioy,  pinicio->0->>'geom' as geomi, pfinal->0->>'x' as pfinalx, pfinal->0->>'y' as pfinaly, pfinal->0->>'geom' as geomf, ogc_fid  FROM public.network01_4326");
 
-        inciofinalGeoJson.forEach(async (punto: any) => {
-            //console.log("INSERT INTO public.nodo (x,y,geom,ogc_fid_tramo,tipo) VALUES ("+punto.piniciox+","+punto.pinicioy+",'"+punto.geom+"',"+ punto.ogc_fid+", 'inicio')");
-            await db.query("INSERT INTO public.nodo (x,y,geom,ogc_fid_tramo,tipo) VALUES ("+punto.piniciox+","+punto.pinicioy+",'"+punto.geomi+"',"+ punto.ogc_fid+", 'inicio')");
-            await db.query("INSERT INTO public.nodo (x,y,geom,ogc_fid_tramo,tipo) VALUES ("+punto.pfinalx+","+punto.pfinaly+",'"+punto.geomf+"',"+ punto.ogc_fid+", 'final')");
+        // inciofinalGeoJson.forEach(async (punto: any) => {
+        //     //console.log("INSERT INTO public.nodo (x,y,geom,ogc_fid_tramo,tipo) VALUES ("+punto.piniciox+","+punto.pinicioy+",'"+punto.geom+"',"+ punto.ogc_fid+", 'inicio')");
+        //     await db.query("INSERT INTO public.nodo (x,y,geom,ogc_fid_tramo,tipo) VALUES ("+punto.piniciox+","+punto.pinicioy+",'"+punto.geomi+"',"+ punto.ogc_fid+", 'inicio')");
+        //     await db.query("INSERT INTO public.nodo (x,y,geom,ogc_fid_tramo,tipo) VALUES ("+punto.pfinalx+","+punto.pfinaly+",'"+punto.geomf+"',"+ punto.ogc_fid+", 'final')");
 
-        });
+        // });
         const nodos = await db.query("Select x,y FROM public.nodo");
         res.json(nodos);
     }
