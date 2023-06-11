@@ -57,8 +57,8 @@ export class MapNodosComponent implements OnInit {
     lat: '',
     long: ''
   }
-  // puntoIniciogroupGeoJson = new L.LayerGroup();
-  // puntoFingroupGeoJson = new L.LayerGroup();
+  puntoIniciogroupGeoJson = new L.LayerGroup();
+  puntoFingroupGeoJson = new L.LayerGroup();
   puntogroupGeoJson = new L.LayerGroup();
   //Variables referentes a control de inputs de las coordenadas
   puntoInicioFormGroup = this.formBuilder.group({
@@ -93,7 +93,7 @@ export class MapNodosComponent implements OnInit {
           L.marker([y, x], { icon: purpleIcon })
             .bindPopup('( ' + x + ' , ' + y + ' )')
             .on("click", e => {
-              this.markerOnClick(e.latlng)
+              this.markerOnClick(e)
             })
             .on('popupopen', e => {
               if (this.stepper.selectedIndex == 0) {
@@ -113,33 +113,59 @@ export class MapNodosComponent implements OnInit {
       });
   }
   //to do refactorizar
-  markerOnClick(latlng: any) {
-    
-    //controlar quien 
+  markerOnClick(e: any) {
+
     if (this.stepper.selectedIndex == 0) {
+
       this.puntoInicioFormGroup.setValue(
         {
-          latitudControl: latlng.lat,
-          longitudControl: latlng.lng
+          latitudControl: e.latlng.lat,
+          longitudControl: e.latlng.lng
         }
       );
     }
     if (this.stepper.selectedIndex == 1) {
+
       this.puntoFinalFormGroup.setValue(
         {
-          latitudControl: latlng.lat,
-          longitudControl: latlng.lng
+          latitudControl: e.latlng.lat,
+          longitudControl: e.latlng.lng
         }
       );
     }
-   // console.log('hola' + this.puntoInicioFormGroup.value['latitudControl']);
-    this.nodoinicio.lat = JSON.stringify( this.puntoInicioFormGroup.value['latitudControl']);
-    this.nodoinicio.long = JSON.stringify( this.puntoInicioFormGroup.value['longitudControl']);
-    this.nodofin.lat = JSON.stringify( this.puntoFinalFormGroup.value['latitudControl']);
-    this.nodofin.long = JSON.stringify( this.puntoFinalFormGroup.value['longitudControl']);
+    // console.log('hola' + this.puntoInicioFormGroup.value['latitudControl']);
+    this.nodoinicio.lat = JSON.stringify(this.puntoInicioFormGroup.value['latitudControl']);
+    this.nodoinicio.long = JSON.stringify(this.puntoInicioFormGroup.value['longitudControl']);
+    this.nodofin.lat = JSON.stringify(this.puntoFinalFormGroup.value['latitudControl']);
+    this.nodofin.long = JSON.stringify(this.puntoFinalFormGroup.value['longitudControl']);
   }
 
+  public reset(): void {
+    this.stepper.reset();
+    this.puntoIniciogroupGeoJson.clearLayers();
+    this.puntoFingroupGeoJson.clearLayers();
+    this.puntogroupGeoJson.clearLayers();
+    this.makePuntoMarkers();
+  }
 
+  public addInicio(): void {
+    // if (this.stepper.selectedIndex == 2) {
+    this.puntoIniciogroupGeoJson.clearLayers();
+    const px = JSON.parse(this.nodoinicio.long);
+    const py = JSON.parse(this.nodoinicio.lat);
+    L.marker([py, px], { icon: greenIcon }).addTo(this.puntoIniciogroupGeoJson);
+  }
+  public addFinal(): void {
+    this.puntoFingroupGeoJson.clearLayers();
+    const pxf = JSON.parse(this.nodofin.long);
+    const pyf = JSON.parse(this.nodofin.lat);
+    L.marker([pyf, pxf], { icon: redIcon }).addTo(this.puntoFingroupGeoJson);
+  }
+
+  public calcularRuta(): void {
+    //llamar servicio que llama a una api que le mandas lo que necesite
+    this.puntogroupGeoJson.clearLayers();
+  }
 
   private initMap(): void {
 
@@ -156,6 +182,8 @@ export class MapNodosComponent implements OnInit {
 
     tiles.addTo(this.mapa);
     this.puntogroupGeoJson.addTo(this.mapa);
+    this.puntoIniciogroupGeoJson.addTo(this.mapa);
+    this.puntoFingroupGeoJson.addTo(this.mapa);
 
 
   }

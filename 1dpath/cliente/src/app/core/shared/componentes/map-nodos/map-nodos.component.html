@@ -1,5 +1,5 @@
 <mat-card class="example-card">
-    <mat-stepper #stepper animationDuration="1350" optional="false">
+    <mat-stepper #stepper animationDuration="1350" optional="false" linear="true">
         <mat-step [stepControl]="puntoInicioFormGroup" label="puntoinicio" errorMessage="Campos requeridos."
             state="pin">
             <form [formGroup]="puntoInicioFormGroup">
@@ -20,7 +20,7 @@
                         <mat-divider></mat-divider>
                     </mat-card-content>
                     <mat-card-actions align="end">
-                        <button mat-button matStepperNext>Next</button>
+                        <button mat-button matStepperNext (click)="addInicio()">Next</button>
                     </mat-card-actions>
                 </mat-card>
 
@@ -45,8 +45,8 @@
                         <mat-divider></mat-divider>
                     </mat-card-content>
                     <mat-card-actions align="end">
-                        <button mat-button matStepperPrevious>Back</button>
-                        <button mat-button matStepperNext>Next</button>
+                        <button mat-button matStepperPrevious (click)="addInicio()">Back</button>
+                        <button mat-button matStepperNext (click)="addFinal()" >Next</button>
                     </mat-card-actions>
                 </mat-card>
             </form>
@@ -72,9 +72,9 @@
                     <mat-divider></mat-divider>
                 </mat-card-content>
                 <mat-card-actions align="end">
-                    <button style="margin: 4px;" mat-button matStepperPrevious>Back</button>
-                    <button mat-button (click)="stepper.reset()">Reset</button>
-                    <button style="margin: 4px;" mat-flat-button color="primary">Calcular ruta
+                    <button style="margin: 4px;" mat-button matStepperPrevious (click)="addFinal()">Back</button>
+                    <button mat-button (click)="reset()">Reset</button>
+                    <button style="margin: 4px;" mat-flat-button color="primary" (click)="calcularRuta()">Calcular ruta
                         <mat-icon>route</mat-icon>
                     </button>
                 </mat-card-actions>
