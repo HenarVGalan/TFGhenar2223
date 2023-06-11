@@ -91,7 +91,7 @@ export class MapNodosComponent implements OnInit {
           let y = JSON.parse(row.y);
 
           L.marker([y, x], { icon: purpleIcon })
-            .bindPopup('( ' + x + ' , ' + y + ' )')
+            .bindPopup('( ' + x + ' , <br>' + y + ' )')
             .on("click", e => {
               this.markerOnClick(e)
             })
@@ -148,23 +148,40 @@ export class MapNodosComponent implements OnInit {
     this.makePuntoMarkers();
   }
 
-  public addInicio(): void {
-    // if (this.stepper.selectedIndex == 2) {
-    this.puntoIniciogroupGeoJson.clearLayers();
+  public update(): void {
     const px = JSON.parse(this.nodoinicio.long);
     const py = JSON.parse(this.nodoinicio.lat);
+    this.puntoIniciogroupGeoJson.clearLayers();
     L.marker([py, px], { icon: greenIcon }).addTo(this.puntoIniciogroupGeoJson);
-  }
-  public addFinal(): void {
-    this.puntoFingroupGeoJson.clearLayers();
+    this.puntoIniciogroupGeoJson.addTo(this.mapa);
     const pxf = JSON.parse(this.nodofin.long);
     const pyf = JSON.parse(this.nodofin.lat);
+    this.puntoFingroupGeoJson.clearLayers();
     L.marker([pyf, pxf], { icon: redIcon }).addTo(this.puntoFingroupGeoJson);
+    this.puntoFingroupGeoJson.addTo(this.mapa);
+  }
+  public addInicio(): void {
+    // if (this.stepper.selectedIndex == 2) {
+    const px = JSON.parse(this.nodoinicio.long);
+    const py = JSON.parse(this.nodoinicio.lat);
+    this.puntoIniciogroupGeoJson.clearLayers();
+    L.marker([py, px], { icon: greenIcon }).addTo(this.puntoIniciogroupGeoJson);
+    this.puntoIniciogroupGeoJson.addTo(this.mapa);
+
+  }
+  public addFinal(): void {
+    const pxf = JSON.parse(this.nodofin.long);
+    const pyf = JSON.parse(this.nodofin.lat);
+    this.puntoFingroupGeoJson.clearLayers();
+    L.marker([pyf, pxf], { icon: redIcon }).addTo(this.puntoFingroupGeoJson);
+    this.puntoFingroupGeoJson.addTo(this.mapa);
   }
 
   public calcularRuta(): void {
     //llamar servicio que llama a una api que le mandas lo que necesite
+    this.mapa.closePopup();
     this.puntogroupGeoJson.clearLayers();
+   
   }
 
   private initMap(): void {
@@ -182,9 +199,6 @@ export class MapNodosComponent implements OnInit {
 
     tiles.addTo(this.mapa);
     this.puntogroupGeoJson.addTo(this.mapa);
-    this.puntoIniciogroupGeoJson.addTo(this.mapa);
-    this.puntoFingroupGeoJson.addTo(this.mapa);
-
 
   }
 
