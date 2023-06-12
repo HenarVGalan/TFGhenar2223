@@ -76,7 +76,7 @@ export class MapNodosComponent implements OnInit {
     longitudControl: ['', Validators.required],
   });
 
-  constructor(private http: HttpClient, private tramoService: TramoService,private puntoService: PuntoService, private formBuilder: FormBuilder) { }
+  constructor(private http: HttpClient, private tramoService: TramoService, private puntoService: PuntoService, private formBuilder: FormBuilder) { }
 
 
   ngOnInit(): void {
@@ -150,11 +150,14 @@ export class MapNodosComponent implements OnInit {
     this.puntoIniciogroupGeoJson.clearLayers();
     this.puntoFingroupGeoJson.clearLayers();
     this.puntogroupGeoJson.clearLayers();
+    this.tramosRutagroupGeoJson.clearLayers();
+    this.mapa.closePopup();
     this.makePuntoMarkers();
+
   }
 
   public update(): void {
-    this.mapa.closePopup();
+
     const px = JSON.parse(this.nodoinicio.long);
     const py = JSON.parse(this.nodoinicio.lat);
     this.puntoIniciogroupGeoJson.clearLayers();
@@ -163,6 +166,7 @@ export class MapNodosComponent implements OnInit {
     const pxf = JSON.parse(this.nodofin.long);
     const pyf = JSON.parse(this.nodofin.lat);
     this.puntoFingroupGeoJson.clearLayers();
+    this.mapa.closePopup();
     L.marker([pyf, pxf], { icon: redIcon }).addTo(this.puntoFingroupGeoJson);
     this.puntoFingroupGeoJson.addTo(this.mapa);
   }
@@ -173,6 +177,7 @@ export class MapNodosComponent implements OnInit {
     this.puntoIniciogroupGeoJson.clearLayers();
     L.marker([py, px], { icon: greenIcon }).addTo(this.puntoIniciogroupGeoJson);
     this.puntoIniciogroupGeoJson.addTo(this.mapa);
+    this.mapa.closePopup();
 
   }
   public addFinal(): void {
@@ -181,6 +186,7 @@ export class MapNodosComponent implements OnInit {
     this.puntoFingroupGeoJson.clearLayers();
     L.marker([pyf, pxf], { icon: redIcon }).addTo(this.puntoFingroupGeoJson);
     this.puntoFingroupGeoJson.addTo(this.mapa);
+    this.mapa.closePopup();
   }
 
   public calcularRuta(): void {
@@ -220,7 +226,7 @@ export class MapNodosComponent implements OnInit {
             }
           }).addTo(this.tramosRutagroupGeoJson);
         });
-       
+
 
       });
   }
