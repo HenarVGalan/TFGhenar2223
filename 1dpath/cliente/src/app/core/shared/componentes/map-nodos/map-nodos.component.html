@@ -10,7 +10,7 @@
                             <mat-card-subtitle>Nodo Inicio</mat-card-subtitle>
                         </mat-card-header>
                         <mat-card-content>
-                            <mat-form-field appearance="outline">
+                            <mat-form-field appearance="outline" class="form-field">
                                 <mat-label>Longitud</mat-label>
                                 <input matInput readonly=true formControlName="longitudControl" required
                                     placeholder="x">
@@ -36,13 +36,13 @@
                         <mat-card-header style="padding-bottom: 8px;">
                             <mat-card-subtitle>Nodo Fin</mat-card-subtitle>
                         </mat-card-header>
-                        <mat-card-content>
-                            <mat-form-field appearance="outline">
+                        <mat-card-content  style="justify-content: space-evenly;">
+                            <mat-form-field appearance="outline" class="form-field">
                                 <mat-label>Longitud</mat-label>
                                 <input matInput readonly=true formControlName="longitudControl" required
                                     placeholder="x">
                             </mat-form-field>
-                            <mat-form-field appearance="outline" class="form-field">
+                            <mat-form-field appearance="outline" class="form-field" >
                                 <mat-label>Latitud</mat-label>
                                 <input matInput readonly=true formControlName="latitudControl" required placeholder="y">
                             </mat-form-field>
@@ -96,9 +96,9 @@
 
     </mat-card>
 
-    <mat-card class="example-card resizable-card">
+    <mat-card class="example-card resizable-card" flex>
 
-        <div id="map-nodos"></div>
+        <div id="map-nodos" flex></div>
 
     </mat-card>
 </div>
