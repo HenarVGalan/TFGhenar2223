@@ -153,7 +153,7 @@ class TramosController {
             // puntosRuta.forEach(async(punto_sol: any) => {
             //     const geompuntos = await db.query("Select geom From public.punto WHERE id= " + punto_sol);
             //     geompuntos.forEach(async (punto: any) => {
-            const tramos = yield database_1.default.query("SELECT st_asgeojson(geom) FROM public.network01_4326 WHERE ogc_fid=285 OR ogc_fid=286 OR ogc_fid=288 OR ogc_fid=289 OR ogc_fid=29 OR ogc_fid=21");
+            const tramos = yield database_1.default.query("SELECT st_asgeojson(geom) FROM public.network01_4326 WHERE ogc_fid=285 OR ogc_fid=286 OR ogc_fid=288 OR ogc_fid=289  OR ogc_fid=21");
             //console.log(tramos);
             //     });
             // });
