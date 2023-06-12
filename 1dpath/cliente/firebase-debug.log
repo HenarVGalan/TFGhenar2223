@@ -1,0 +1,21 @@
+[debug] [2023-06-12T14:15:20.608Z] ----------------------------------------------------------------------
+[debug] [2023-06-12T14:15:20.610Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Henar\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init
+[debug] [2023-06-12T14:15:20.610Z] CLI Version:   12.3.1
+[debug] [2023-06-12T14:15:20.610Z] Platform:      win32
+[debug] [2023-06-12T14:15:20.611Z] Node Version:  v16.15.0
+[debug] [2023-06-12T14:15:20.611Z] Time:          Mon Jun 12 2023 16:15:20 GMT+0200 (hora de verano de Europa central)
+[debug] [2023-06-12T14:15:20.612Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2023-06-12T14:15:20.619Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-06-12T14:15:20.619Z] > authorizing via signed-in user (henarvg040195@gmail.com)
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  C:\Users\Henar\Documents\GitHub\TFGhenar2223\1dpath\cliente
+

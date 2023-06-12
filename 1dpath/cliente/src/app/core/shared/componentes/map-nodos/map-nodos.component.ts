@@ -222,7 +222,7 @@ export class MapNodosComponent implements OnInit {
           L.geoJSON(data, {
             style: {
               weight: 2.5,
-              color: '#7b1fa2'
+              color: 'red'
             }
           }).addTo(this.tramosRutagroupGeoJson);
         });
