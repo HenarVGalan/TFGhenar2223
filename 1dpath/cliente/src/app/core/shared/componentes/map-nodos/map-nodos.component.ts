@@ -63,7 +63,10 @@ export class MapNodosComponent implements OnInit {
 
   puntoIniciogroupGeoJson = new L.LayerGroup();
   puntoFingroupGeoJson = new L.LayerGroup();
-  puntogroupGeoJson = new L.MarkerClusterGroup();
+  
+  puntogroupGeoJson = new L.MarkerClusterGroup({   
+   maxClusterRadius:20
+  });
   tramosRutagroupGeoJson = new L.LayerGroup();
   //Variables referentes a control de inputs de las coordenadas
   puntoInicioFormGroup = this.formBuilder.group({
@@ -201,7 +204,9 @@ export class MapNodosComponent implements OnInit {
     this.mapa = new Map('map-nodos',
       {
         center: [38.9951, -1.8559],
-        zoom: 7,
+        zoom: 6,
+        minZoom:0,
+        
       }
     );
 
