@@ -8,6 +8,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { SharedModule } from './core/shared/shared.module';
 import { MaterialModule } from './core/shared/material/material.module';
 import { HighchartsChartModule } from 'highcharts-angular';
+import { LeafletMarkerClusterModule } from '@asymmetrik/ngx-leaflet-markercluster'
 
 
 //import { HighchartsChartModule }  from './1dpath/cliente/node_modules/highcharts-angular';
@@ -15,17 +16,17 @@ import { HighchartsChartModule } from 'highcharts-angular';
 
 @NgModule({
   declarations: [
-    AppComponent    
+    AppComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
-    BrowserAnimationsModule,  
+    BrowserAnimationsModule,
     FlexLayoutModule,
     HighchartsChartModule,
-    MaterialModule,  
-   
+    MaterialModule,
+    LeafletMarkerClusterModule,
     SharedModule
   ],
   providers: [],
