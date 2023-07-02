@@ -11,6 +11,7 @@ import { CrearRutaComponent } from './auth/login/containers/crear-ruta/crear-rut
 import { BasicoComponent } from './auth/login/containers/basico/basico.component';
 import { MapaNetwork01TipoComponent } from './auth/login/components/mapa-network01-tipo/mapa-network01-tipo.component';
 import { IntermedioComponent } from './auth/login/containers/intermedio/intermedio.component';
+import { EstadoComponent } from './auth/login/components/estado/estado.component';
 
 
 //import { MenuItems } from '../core/shared/menu-items';
@@ -21,7 +22,8 @@ import { IntermedioComponent } from './auth/login/containers/intermedio/intermed
     CrearRutaComponent,
     BasicoComponent,
     MapaNetwork01TipoComponent,
-    IntermedioComponent,   
+    IntermedioComponent,
+    EstadoComponent,   
 
   ],
   imports: [

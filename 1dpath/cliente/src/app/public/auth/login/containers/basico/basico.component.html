@@ -1,12 +1,16 @@
-<div  fxLayout fxLayout="row" fxLayoutAlign="space-evenly center" class=" basic-container">
-    <mat-card class="example-card">
+<div fxLayout fxLayout="row" fxLayoutAlign="space-evenly center" class="basic-container">
+    <app-estado></app-estado>
+    <mat-card class="map-card">
         <mat-card-header>
-            <mat-card-subtitle>Vías en obras</mat-card-subtitle>
-            <mat-card-title>Mapa</mat-card-title>
+            <!-- <mat-card-title>Mapa</mat-card-title> -->
         </mat-card-header>
         <mat-card-content>
             <app-mapa-network01-tipo></app-mapa-network01-tipo>
             <mat-divider></mat-divider>
-        </mat-card-content> 
+            <div matListItemTitle>
+                <mat-icon matListItemAvatar color="warn">horizontal_rule</mat-icon>
+                Vías en obras
+            </div>
+        </mat-card-content>
     </mat-card>
 </div>

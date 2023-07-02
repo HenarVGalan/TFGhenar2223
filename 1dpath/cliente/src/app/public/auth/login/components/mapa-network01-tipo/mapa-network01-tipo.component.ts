@@ -48,8 +48,8 @@ export class MapaNetwork01TipoComponent implements OnInit {
         // console.log(data);
         L.geoJSON(data, {
           style: {
-            weight: 2,
-            color: 'black'
+            weight: 2, 
+            color: '#7b1fa2'
           }
         }).addTo(this.groupGeoJson);
 
