@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PublicComponent } from './public.component';
-import { CrearRutaComponent } from './auth/login/containers/crear-ruta/crear-ruta.component';
+import { IntermedioComponent } from './auth/login/containers/intermedio/intermedio.component';
 import { MapNodosComponent } from '../core/shared/componentes/map-nodos/map-nodos.component';
 import { BasicoComponent } from './auth/login/containers/basico/basico.component';
 
@@ -19,8 +19,8 @@ const routes: Routes = [
         component: BasicoComponent
       },
       {
-        path: 'crearRuta',
-        component: CrearRutaComponent
+        path: 'intermedio',
+        component: IntermedioComponent
       },
       {
         path: 'mapaNodos',

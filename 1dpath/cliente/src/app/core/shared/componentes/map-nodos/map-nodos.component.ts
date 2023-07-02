@@ -63,7 +63,6 @@ export class MapNodosComponent implements OnInit {
 
   puntoIniciogroupGeoJson = new L.LayerGroup();
   puntoFingroupGeoJson = new L.LayerGroup();
-  
   puntogroupGeoJson = new L.MarkerClusterGroup({   
    maxClusterRadius:20
   });

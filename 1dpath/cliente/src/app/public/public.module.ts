@@ -10,6 +10,7 @@ import { PublicComponent } from './public.component';
 import { CrearRutaComponent } from './auth/login/containers/crear-ruta/crear-ruta.component';
 import { BasicoComponent } from './auth/login/containers/basico/basico.component';
 import { MapaNetwork01TipoComponent } from './auth/login/components/mapa-network01-tipo/mapa-network01-tipo.component';
+import { IntermedioComponent } from './auth/login/containers/intermedio/intermedio.component';
 
 
 //import { MenuItems } from '../core/shared/menu-items';
@@ -19,7 +20,8 @@ import { MapaNetwork01TipoComponent } from './auth/login/components/mapa-network
     PublicComponent,
     CrearRutaComponent,
     BasicoComponent,
-    MapaNetwork01TipoComponent,   
+    MapaNetwork01TipoComponent,
+    IntermedioComponent,   
 
   ],
   imports: [
