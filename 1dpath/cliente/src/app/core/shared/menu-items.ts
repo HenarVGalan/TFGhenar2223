@@ -10,7 +10,7 @@ export interface Menu {
 const MENUITEMS = [
   { path: 'basico', name: 'Básico', type: 'link', icon: 'data_usage' },
   { path: 'intermedio', name: 'Intermedio', type: 'link', icon: 'map' },
-  { path: 'mapaNodos', name: 'Avanzado', type: 'link', icon: 'route' },
+  { path: 'avanzado', name: 'Avanzado', type: 'link', icon: 'route' },
  // { path: 'misrutas', name: 'Mis rutas', type: 'link', icon: 'flowsheet' },
 //  { path: 'crearRuta', name: 'Crear Ruta', type: 'link', icon: 'route' },
  // { path: 'MapaLineas', name: 'Mapa Vías', type: 'link', icon: 'alt_route' },

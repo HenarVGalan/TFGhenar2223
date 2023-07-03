@@ -13,6 +13,8 @@ import { MapaNetwork01TipoComponent } from './auth/login/components/mapa-network
 import { IntermedioComponent } from './auth/login/containers/intermedio/intermedio.component';
 import { EstadoComponent } from './auth/login/components/estado/estado.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { PanelFerrocarrilComponent } from './auth/login/components/panel-ferrocarril/panel-ferrocarril.component';
+import { AvanzadoComponent } from './auth/login/containers/avanzado/avanzado.component';
 
 
 //import { MenuItems } from '../core/shared/menu-items';
@@ -24,7 +26,9 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     BasicoComponent,
     MapaNetwork01TipoComponent,
     IntermedioComponent,
-    EstadoComponent,   
+    EstadoComponent,
+    PanelFerrocarrilComponent,
+    AvanzadoComponent,   
     
 
   ],

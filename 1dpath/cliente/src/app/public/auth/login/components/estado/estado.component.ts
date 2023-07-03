@@ -49,6 +49,34 @@ export class EstadoComponent implements OnInit {
     },
 
   };
+  alertas2GeoJson = {
+    type: 'Feature' as const,
+    properties: {
+      name: 'alerta1',
+      amenity: 'Baseball Stadium',
+      popupContent: 'alerta 1'
+    },
+    geometry: {
+      type: 'Point' as const,
+      coordinates: [-5.75456840593796, 41.522957298833546]
+
+    },
+
+  };
+  alerta3sGeoJson = {
+    type: 'Feature' as const,
+    properties: {
+      name: 'alerta1',
+      amenity: 'Baseball Stadium',
+      popupContent: 'alerta 1'
+    },
+    geometry: {
+      type: 'Point' as const,
+      coordinates: [-6.447898144239559, 39.47149720511018]
+
+    },
+
+  };
 
   constructor() { }
 
@@ -91,7 +119,6 @@ export class EstadoComponent implements OnInit {
         },
       }
     },
-
     series: [{
       minPointSize: 10,
       innerSize: '40%',
@@ -364,7 +391,16 @@ export class EstadoComponent implements OnInit {
         return L.circleMarker(latlng, geojsonMarkerOptions);
       }
     }).addTo(this.mapa);
-
+    L.geoJSON(this.alertas2GeoJson, {
+      pointToLayer: function (feature, latlng) {
+        return L.circleMarker(latlng, geojsonMarkerOptions);
+      }
+    }).addTo(this.mapa);
+    L.geoJSON(this.alerta3sGeoJson, {
+      pointToLayer: function (feature, latlng) {
+        return L.circleMarker(latlng, geojsonMarkerOptions);
+      }
+    }).addTo(this.mapa);
   }
   // 
   //

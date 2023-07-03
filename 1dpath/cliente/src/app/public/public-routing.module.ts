@@ -4,6 +4,7 @@ import { PublicComponent } from './public.component';
 import { IntermedioComponent } from './auth/login/containers/intermedio/intermedio.component';
 import { MapNodosComponent } from '../core/shared/componentes/map-nodos/map-nodos.component';
 import { BasicoComponent } from './auth/login/containers/basico/basico.component';
+import { AvanzadoComponent } from './auth/login/containers/avanzado/avanzado.component';
 
 
 const routes: Routes = [
@@ -23,8 +24,8 @@ const routes: Routes = [
         component: IntermedioComponent
       },
       {
-        path: 'mapaNodos',
-        component: MapNodosComponent
+        path: 'avanzado',
+        component: AvanzadoComponent
       }
 
     ]
