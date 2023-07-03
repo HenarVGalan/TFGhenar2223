@@ -77,7 +77,7 @@ export class MapaNetwork01TipoComponent implements OnInit {
 
   }
   showDataOnMap(_data: any): void {
-    const map = new Map('mapa-tipos').setView([38.9951, -1.8559], 6.5);
+    const map = new Map('mapa-tipos').setView([38.9951, -1.8559], 5.5);
     tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'

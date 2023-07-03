@@ -12,6 +12,7 @@ import { BasicoComponent } from './auth/login/containers/basico/basico.component
 import { MapaNetwork01TipoComponent } from './auth/login/components/mapa-network01-tipo/mapa-network01-tipo.component';
 import { IntermedioComponent } from './auth/login/containers/intermedio/intermedio.component';
 import { EstadoComponent } from './auth/login/components/estado/estado.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 
 //import { MenuItems } from '../core/shared/menu-items';
@@ -24,6 +25,7 @@ import { EstadoComponent } from './auth/login/components/estado/estado.component
     MapaNetwork01TipoComponent,
     IntermedioComponent,
     EstadoComponent,   
+    
 
   ],
   imports: [
@@ -32,6 +34,7 @@ import { EstadoComponent } from './auth/login/components/estado/estado.component
     ReactiveFormsModule,    
     PublicRoutingModule,
     MaterialModule,
+    FlexLayoutModule
   ]
 
 })
