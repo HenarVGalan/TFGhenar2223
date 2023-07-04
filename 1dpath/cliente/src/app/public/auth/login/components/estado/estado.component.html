@@ -1,22 +1,24 @@
 <!-- fxLayout="column" fxLayoutAlign="space-evenly center"  -->
-<div  fxLayout fxLayout="row" fxLayoutAlign="space-evenly" fxLayout.xs="column">
+<div fxLayout fxLayout="row" fxLayoutAlign="start stretch " fxLayout.xs="column">
 
-    <mat-card fxFlex class="chart-card">
+    <mat-card fxFlex="33" class="chart-card">
         <mat-card-header>
             <mat-card-subtitle>Tiempo</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
-        <img id="img-card" mat-card-image src="/assets/mapaaemet.png" alt="tiempoEspaña">
-    </mat-card-content>
+            <img id="img-card" mat-card-image src="/assets/mapaaemet.png" alt="tiempoEspaña">
+        </mat-card-content>
     </mat-card>
 
-    <mat-card fxFlex class="chart-card" >
+    <mat-card fxFlex="50" class="chart-card">
         <mat-card-header>
             <mat-card-subtitle>Alertas</mat-card-subtitle>
             <!-- <mat-card-title>Alertas</mat-card-title>               -->
         </mat-card-header>
         <mat-card-content>
-            <div id="mapa-alertas"></div>
+            <figure class="highcharts-figure">
+                <div id="mapa-alertas"></div>
+            </figure>
             <!-- <figure class="highcharts-figure">
                 <div id="chart-alert"></div>
                 <p class="highcharts-description">
@@ -24,17 +26,7 @@
             </figure> -->
         </mat-card-content>
     </mat-card>
-    
-    <mat-card fxFlex class="chart-card" >
-        <mat-card-header>
-            <mat-card-subtitle>Estado de la vías</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content>
-            <figure class="highcharts-figure">
-                <div id="basico-chart-estadovia"></div>              
-            </figure>
-        </mat-card-content>
 
-    </mat-card>
+
 
 </div>

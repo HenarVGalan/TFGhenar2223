@@ -6,10 +6,15 @@
 
 #map-nodos {
   min-height: 600px;
-  min-width: 700px;
+  min-width: 690px;
   flex: 1;
 }
-
+@media screen and (max-height: 745px) {
+  #map-nodos {
+    min-height: 400px;
+  
+  }
+}
 .resizable-card {
   resize: both;
   overflow: auto;

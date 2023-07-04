@@ -5,17 +5,29 @@
     </p>
 </figure> -->
 
+<div fxLayout fxLayout="row" fxLayoutAlign="start stretch">    
+    <div >
+        <mat-card>
+            <mat-card-header>
+                <!-- <mat-card-title>Mapa</mat-card-title> -->
+                <mat-card-subtitle>Estado de las vías del ferrocarril | Última actulización: 15-03-2023</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content  >
+                <app-chart-obras fxFlex="33" ></app-chart-obras>
+                <div fxFlex="67"  id="mapa-tipos" fxFlex></div>
+                <mat-divider></mat-divider>       
+            </mat-card-content>
+            <!-- <mat-card-footer align="end">
+                <div  matListItemTitle>
+                    <mat-icon matListItemAvatar color="warn">horizontal_rule</mat-icon>
+                    Vías en obras
+                </div>
+            </mat-card-footer> -->
+           
+        </mat-card>
+    </div>
+</div>
 
-<mat-card>
-    <mat-card-header>
-        <!-- <mat-card-title>Mapa</mat-card-title> -->
-    </mat-card-header>
-    <mat-card-content>
-        <div id="mapa-tipos"></div>
-        <mat-divider></mat-divider>
-        <div matListItemTitle>
-            <mat-icon matListItemAvatar color="warn">horizontal_rule</mat-icon>
-            Vías en obras
-        </div>
-    </mat-card-content>
-</mat-card>
+
+
+
