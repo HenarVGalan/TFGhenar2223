@@ -7,7 +7,7 @@ import { FormBuilder, FormControl, Validators, FormsModule, ReactiveFormsModule 
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 
 L.Icon.Default.imagePath = 'assets/';
-//
+var legend = new L.Control({position: 'bottomright'});
 const purpleIcon = new L.Icon({
   iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-violet.png',
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
@@ -50,6 +50,9 @@ import { TramoService } from 'src/app/core/services/tramo/tramo.service';
 })
 export class MapNodosComponent implements OnInit {
   @ViewChild('stepper') stepper: any;
+  value = 0;
+  value_trafic=0;
+  value_temp=0;
   // Variables referente al mapa leaflet
   private mapa: any;
   nodoinicio = {
@@ -201,7 +204,7 @@ export class MapNodosComponent implements OnInit {
     this.puntogroupGeoJson.clearLayers();
     this.getDataFromApi();
   }
-
+  
   private initMap(): void {
 
     this.mapa = new Map('map-nodos',
@@ -222,6 +225,22 @@ export class MapNodosComponent implements OnInit {
     this.viasgroupGeoJson.addTo(this.mapa);
 
     this.tramosRutagroupGeoJson.addTo(this.mapa);
+  //   legend.onAdd = function (map) {
+  
+  //     var div = L.DomUtil.create('div', 'info legend'),
+  //         grades = [0, 10, 20, 50, 100, 200, 500, 1000],
+  //         labels = [];
+  
+  //     // loop through our density intervals and generate a label with a colored square for each interval
+     
+  //         div.innerHTML +=
+  //             '<mat-list> <mat-list-item><div matListItemLine><mat-icon  style="color: blueviolet;">location_on</mat-icon> Estaciones</div></mat-list-item><mat-list-item> <div matListItemLine><mat-icon matListItemAvatar style="color: forestgreen;">radio_button_checked</mat-icon>Agrupaciones de estaciones</div> </mat-list-item></mat-list>' +
+  //              '&ndash;)';
+        
+  //     return div;
+  // };  
+  // legend.addTo(this.mapa);
+
   }
   getDataVias(): void {
     this.tramoService.getTramosFerrocarril()

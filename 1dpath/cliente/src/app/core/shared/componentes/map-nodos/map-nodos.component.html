@@ -1,12 +1,11 @@
-
-<div style="display: flex;" >   
+<div style="display: flex;">
     <mat-card class="example-card" style="width: fit-content;">
         <mat-stepper #stepper orientation="vertical" animationDuration="1350" optional="false">
             <mat-step [stepControl]="puntoInicioFormGroup" label="puntoinicio" errorMessage="Campos requeridos."
                 state="pin">
                 <form [formGroup]="puntoInicioFormGroup">
                     <ng-template matStepLabel>Selecciona Inicio de la ruta</ng-template>
-                    <mat-card class=" outline">
+                    <mat-card appearance="outlined">
                         <mat-card-header style="padding-bottom: 8px;">
                             <mat-card-subtitle>Nodo Inicio</mat-card-subtitle>
                         </mat-card-header>
@@ -33,17 +32,17 @@
                 state="pin">
                 <form [formGroup]="puntoFinalFormGroup">
                     <ng-template matStepLabel>Selecciona Fin de la ruta</ng-template>
-                    <mat-card class="outline">
+                    <mat-card appearance="outlined">
                         <mat-card-header style="padding-bottom: 8px;">
                             <mat-card-subtitle>Nodo Fin</mat-card-subtitle>
                         </mat-card-header>
-                        <mat-card-content  style="justify-content: space-evenly;">
+                        <mat-card-content style="justify-content: space-evenly;">
                             <mat-form-field appearance="outline" class="form-field">
                                 <mat-label>Longitud</mat-label>
                                 <input matInput readonly=true formControlName="longitudControl" required
                                     placeholder="x">
                             </mat-form-field>
-                            <mat-form-field appearance="outline" class="form-field" >
+                            <mat-form-field appearance="outline" class="form-field">
                                 <mat-label>Latitud</mat-label>
                                 <input matInput readonly=true formControlName="latitudControl" required placeholder="y">
                             </mat-form-field>
@@ -57,12 +56,55 @@
                 </form>
             </mat-step>
             <mat-step label="Calcular ruta" state="route">
-                <mat-card class="outline">
+                <mat-card appearance="outlined" style="margin-bottom: 8px;">
+                    <mat-card-header>
+                        <mat-card-subtitle>Configuración</mat-card-subtitle>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <mat-list >
+                            <mat-list-item>
+                                <div matListItemLine>Elevación                                  
+                                    <mat-slider  [disableRipple]="true">
+                                        <input matSliderThumb [(ngModel)]="value">
+                                    </mat-slider>
+                                    <label class="example-value-label">{{value}}</label>
+                                </div>
+
+
+                            </mat-list-item>
+                            <mat-list-item>
+
+                                <div matListItemLine>Temperatura
+                                    <mat-slider>
+                                        <input matSliderThumb [(ngModel)]="value_temp">
+                                    </mat-slider>
+                                    <label class="example-value-label">{{value_temp}}</label>
+                                </div>
+                            </mat-list-item>
+                            <mat-list-item>
+                                <div matListItemLine>Tráfico
+                                    <mat-slider>
+                                        <input matSliderThumb [(ngModel)]="value_trafic">
+                                    </mat-slider>
+                                    <label class="example-value-label">{{value_trafic}}</label>
+                                </div>
+                            </mat-list-item>
+                            <mat-list-item>
+                                <div matListItemLine>Evitar peajes
+                                    <mat-slide-toggle  [disableRipple]="true" ></mat-slide-toggle>
+                                </div>
+                            </mat-list-item>
+                        </mat-list>
+                        <mat-divider></mat-divider>
+                    </mat-card-content>
+                </mat-card>
+
+                <mat-card appearance="outlined">
                     <mat-card-header>
                         <mat-card-subtitle>Resumen</mat-card-subtitle>
                     </mat-card-header>
                     <mat-card-content>
-                        <mat-list >
+                        <mat-list>
                             <mat-list-item>
                                 <mat-icon matListItemAvatar color="accent">location_on</mat-icon>
                                 <div matListItemTitle>Nodo Inicio</div>
@@ -100,6 +142,29 @@
     <mat-card class="example-card resizable-card" flex>
 
         <div id="map-nodos" flex></div>
+
+        <mat-card-footer>
+            <mat-list>
+                <h3 matSubheader>Leyenda</h3>
+                <mat-list-item>
+
+                    <div matListItemLine>
+                        <mat-icon style="color: blueviolet;">location_on</mat-icon>
+                        Estaciones
+                    </div>
+
+                </mat-list-item>
+                <mat-list-item>
+
+                    <div matListItemLine>
+                        <mat-icon matListItemAvatar style="color: forestgreen;">radio_button_checked</mat-icon>
+                        Agrupaciones de estaciones
+                    </div>
+
+                </mat-list-item>
+            </mat-list>
+        </mat-card-footer>
+
 
     </mat-card>
 </div>

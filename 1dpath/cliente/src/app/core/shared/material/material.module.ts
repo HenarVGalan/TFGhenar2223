@@ -21,7 +21,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-
+import {MatSliderModule} from '@angular/material/slider';
 
 
 @NgModule({
@@ -48,7 +48,8 @@ import { MatInputModule } from '@angular/material/input';
     MatGridListModule,
     MatStepperModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatSliderModule
   ],
   exports: [
     CommonModule,
@@ -72,6 +73,7 @@ import { MatInputModule } from '@angular/material/input';
     MatGridListModule,
     MatStepperModule,
     MatFormFieldModule,
+    MatSliderModule,
     MatInputModule
   ]
 })
