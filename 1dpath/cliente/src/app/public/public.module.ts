@@ -15,6 +15,7 @@ import { EstadoComponent } from './auth/login/components/estado/estado.component
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { PanelFerrocarrilComponent } from './auth/login/components/panel-ferrocarril/panel-ferrocarril.component';
 import { AvanzadoComponent } from './auth/login/containers/avanzado/avanzado.component';
+import { MapaFerrocarrilComponent } from './auth/login/components/mapa-ferrocarril/mapa-ferrocarril.component';
 
 
 //import { MenuItems } from '../core/shared/menu-items';
@@ -28,7 +29,8 @@ import { AvanzadoComponent } from './auth/login/containers/avanzado/avanzado.com
     IntermedioComponent,
     EstadoComponent,
     PanelFerrocarrilComponent,
-    AvanzadoComponent,   
+    AvanzadoComponent,
+    MapaFerrocarrilComponent,   
     
 
   ],

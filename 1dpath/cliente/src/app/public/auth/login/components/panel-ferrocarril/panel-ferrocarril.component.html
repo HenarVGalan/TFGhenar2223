@@ -1,10 +1,56 @@
-<mat-card>
-    <mat-card-header>
-        <mat-card-title>Mapa</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/windbarb.js"></script>
+<script src="https://code.highcharts.com/modules/pattern-fill.js"></script>
+<script src="https://code.highcharts.com/modules/data.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+<link href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 
-        <app-mapa-network01-tipo></app-mapa-network01-tipo>
-      
-    </mat-card-content>
-</mat-card>
+<div fxFlex class="map-card">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>Información</mat-card-title>
+            <mat-card-subtitle></mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <figure class="highcharts-figure">
+                <div id="chart-estadovia">
+                    <!-- <img id="img-card" mat-card-image [src]="ruta" alt="tiempoEspaña"> -->
+                    <div id="loading">
+                        <i class="fa fa-spinner fa-spin"></i> Loading data from external source
+                    </div>
+                </div>
+                <p class="highcharts-description">
+                    <mat-list>
+                        <mat-list-item>
+                            <div matListItemLine>
+                                <mat-icon matListItemAvatar>layers</mat-icon>
+                                Selecciona las Estaciones en el mapa
+                            </div>
+                            <!-- <div matListItemTitle>Selecciona las Estaciones en el mapa</div> -->
+                        </mat-list-item>
+                        <mat-list-item>
+                            <div matListItemLine>
+                                <mat-icon matListItemAvatar>pan_tool_alt</mat-icon>
+                                Y Clicka en una estación si quieres obtener información
+                            </div>
+                        </mat-list-item>
+                    </mat-list>
+
+                </p>
+            </figure>
+        </mat-card-content>
+    </mat-card>
+</div>
+
+<div fxFlex class="map-card">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>Mapa</mat-card-title>
+            <mat-card-subtitle>Vías del ferrocarril</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <app-mapa-ferrocarril></app-mapa-ferrocarril>
+        </mat-card-content>
+    </mat-card>
+</div>

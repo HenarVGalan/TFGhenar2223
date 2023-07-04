@@ -81,8 +81,7 @@ export class EstadoComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    Highcharts.chart('chart-estadovia', this.optionsPIE);
-    //  HighMaps.mapChart('chart-alert', this.optionsMap);
+    Highcharts.chart('basico-chart-estadovia', this.optionsPIE);
     this.initMap();
 
   }
