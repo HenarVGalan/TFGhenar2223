@@ -200,9 +200,11 @@ export class MapNodosComponent implements OnInit {
 
   public calcularRuta(): void {
     //llamar servicio que llama a una api que le mandas lo que necesite
+    if( this.nodoinicio.lat!='' && this.nodoinicio.long !='' && this.nodofin.lat !='' && this.nodofin.long !=''){
     this.mapa.closePopup();
     this.puntogroupGeoJson.clearLayers();
     this.getDataFromApi();
+    }
   }
   
   private initMap(): void {
