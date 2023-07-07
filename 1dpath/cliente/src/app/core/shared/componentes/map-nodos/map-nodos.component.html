@@ -13,7 +13,11 @@
                             <mat-form-field appearance="outline" class="form-field">
                                 <mat-label>Longitud</mat-label>
                                 <input matInput readonly=true formControlName="longitudControl" required
-                                    placeholder="x">
+                                    placeholder="x"> 
+                                    <!-- <mat-hint align="start">clica en el mapa para seleccionar estación</mat-hint> -->
+                                    <!-- <mat-error *ngIf="puntoInicioFormGroup.hasError('longitudControl')">
+                                        clica en el mapa para seleccionar estación <strong>required</strong>
+                                    </mat-error> -->
                             </mat-form-field>
                             <mat-form-field appearance="outline" class="form-field">
                                 <mat-label>Latitud</mat-label>
